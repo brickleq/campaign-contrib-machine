@@ -13,9 +13,14 @@ from flask import (
 from flask_cors import CORS 
 from flask_sqlalchemy import SQLAlchemy
 
+from config import user, password, host, port, dbname
+connect_string = (f'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{dbname}')
+
 # Create an instance of Flask
 app = Flask(__name__)
 CORS(app)
+
+engine = create_engine(connect_string)
 
 if __name__ == "__main__":
     app.run(debug=True)

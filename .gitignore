@@ -1,7 +1,10 @@
+## Project
+config.py
 create_users.sql
 .DS_Store
 .vscode
 
+## Template
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
