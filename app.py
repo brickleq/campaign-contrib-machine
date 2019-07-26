@@ -18,7 +18,7 @@ connect_string = (f'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{dbna
 
 # Create an instance of Flask
 app = Flask(__name__)
-CORS(app)
+CORS(app) # For development, allow access to local and remote IP addresses
 
 engine = create_engine(connect_string)
 
