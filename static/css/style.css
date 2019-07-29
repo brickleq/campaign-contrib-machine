@@ -1,0 +1,149 @@
+* {
+    box-sizing: border-box;
+    font-family: Ubuntu, sans-serif;
+  }
+
+  html,
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: white;
+}
+
+
+#map {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  width: 100%; 
+  height: 450px; 
+  position: relative;
+}
+
+  
+h3 {
+  color: black;
+}
+
+.h4 { 
+    display: block;
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }
+  
+
+h5 {
+  color: black;
+  font-size: 14pt;
+  line-height: 18pt; 
+  margin-bottom:10px;
+}
+.h5 .light {
+  color: #E7F7F8;
+}
+
+.table{
+padding: 40px;
+}
+
+/* The wrapper contains all of the page's content besides the footer, which is pushed to the bottom of the page */
+.wrapper {
+  position: relative;
+  min-height: 100%;
+  padding-bottom: 130px;
+  overflow: auto;
+}
+
+/* The footer is positioned at the bottom of the page */
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  min-height: 100px;
+  background: #255484;
+}
+
+/* The code styles the text at the bottom of the footer */
+.footer > .bottom {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 5px;
+  background: #255484;
+}
+
+.navbar {
+  padding: 0px;
+  margin: 0;
+  height: 50px;
+  background-color: #1C416B;
+  border-radius: 0px;
+}
+
+.navbar:hover {
+    background-color: #AD2b2b;
+    color: #FFFFFF
+  }
+
+.navbar-brand {
+    color: white;
+    padding: 15px;
+    margin: 0;
+
+  }
+
+.navbar-brand:hover {
+    background-color: #AD2b2b;
+    color: #FFFFFF
+  }
+
+.dropdown-item {
+    padding-left:10px;
+}
+
+
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+/* The styles for the parallax */
+.hero {
+    position: top;
+    height: 450px;
+
+    margin: 0;
+    background: black;
+  
+    background-image: url("hero/hero_stock_image.jpg");
+    background-position: bottom center;
+    background-size: cover;
+  }
+  
+  .hero h1 {
+    margin-top: 180px;
+    font-size: 0.1rem;
+    animation: title 1.2s forwards linear;
+  }
+  
+  .hero p {
+    font-size: 2rem;
+    opacity: 0;
+    animation: subtitle 1.2s forwards linear;
+    animation-delay: 1.2s;
+  }
+  
+
+
