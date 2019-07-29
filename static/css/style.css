@@ -83,7 +83,8 @@ padding: 40px;
   padding: 0px;
   margin: 0;
   height: 50px;
-  background-color: #1C416B
+  background-color: #1C416B;
+  border-radius: 0px;
 }
 
 .navbar:hover {
