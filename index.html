@@ -9,10 +9,21 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Finance Your Campaign!</title>
 
+        <!-- Leaflet CSS & JS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+        integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+        crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+        integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+        crossorigin=""></script>
+
+        <!--D3 cdn-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
+
         <!-- BOOTSTRAP // CSS --> 
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="static/css/style.css">
+        <link rel="stylesheet" type="text/css" href="static/css/style.css">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -43,12 +54,12 @@
                                     
                                     <!-- REPORT GENERATED FROM FLASK QUERY -->
                                     <li class="nav-item text-right">
-                                        <a class="dropdown-item text-muted" href="static/html/zip_code.html">Zip Code Query</a>
+                                        <a class="nav-link text-muted" href="static/html/zip_code.html">Zip Code Query</a>
                                     </li>
 
                                      <!-- Featured Queries -- Back-up if live data processes to slowly for the demo -->
                                      <li class="nav-item text-right">
-                                        <a class="dropdown-item text-muted" href="static/html/featured.html">Featured</a>
+                                        <a class="nav-link text-muted" href="static/html/featured.html">Featured</a>
                                     </li>
 
                                     <!-- TEMPLATES TAB // PRESENTATION -->
@@ -83,15 +94,39 @@
             </div>
         </header>
 
-<!-- Hero Header -->
+<!-- LEAFLET Header -->
     
+<div>
+            
+
         <div class="row">
+            
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+  
+                      <!-- The div where we will inject our map -->
+                      <div id="map"></div>
+  
+                      <!-- Our JS -->
+                      <script type="text/javascript" src="static/js/logic.js"></script>
+  
+  
+                    </div>
+            
+            </div>
+
+            <!-- WITH HERO BANNER INSTEAD OF MAP -->
+
+            <!-- <div class="row">
             <div class="hero">
                 <div class="text-center">
             
                 </div>
             </div>
-        </div>
+        </div> -->
+
+
+</div>           
+        
 
 <!-- MAIN -->
         <div class="main">
@@ -126,7 +161,7 @@
                 </div>
                 </div>
             </div>
-            </div>  
+        
 
 
 <!-- Text Entry Row  ||  Do we want this to be sticky to the bottom-->
@@ -159,27 +194,9 @@
                         
                     </div>
                 </div>
+            </div>
 
-            <!-- Test with Text Entry filter button, may not be necessary  ||  Do we want this to be sticky to the bottom-->
             
-        </div>  
-        <div>
-            
-<!-- The div that holds our map -->
-            <div id="map-id"></div>
-
-            <!-- D3 -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
-
-            <!-- Leaflet JavaScript -->
-            <script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
-
-            <!-- API Key -->
-            <script type="text/javascript" src="static/js/config_testr.js"></script>
-            <!-- Our JavaScript -->
-            <script type="text/javascript" src="static/js/logic_testr.js"></script> 
-        </div>
-    </div>
 
 <!-- Body Description of Project -->
           
@@ -240,14 +257,7 @@
                     
                 </div>
           <!-- BOILER PLATE CODE FOR BOOTSTRAP ROW -->
-          
-          <div class="row">
-              <div class="container">
-                  <div class="col-lg-12 col-md-12 col-sm-12">
-
-                  </div>
-              </div>
-          </div>
+        
 
           <div class="row">
                 <div class="container">
