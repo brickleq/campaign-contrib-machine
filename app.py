@@ -56,19 +56,20 @@ gdf
 #%%
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.types import JSON
 
 db = SQLAlchemy(app)
 class ZIP(db.Model):
-    ZCTA5CE10 = db.Column(db.String(5), primary_key=True)
-    GEOID10 = db.Column(db.String(5))
-    CLASSFP10 = db.Column(db.String(2))
-    MTFCC10 = db.Column(db.String(5))
-    FUNCSTAT10 = db.Column(db.String(1))
-    ALAND10 = db.Column(db.Numeric)
-    AWATER10 = db.Column(db.Numeric)
-    INTPTLAT10 = db.Column(db.Numeric)
-    INTPTLON10 = db.Column(db.Numeric)
-    geometry = db.Column(db.String)
+    ZCTA5CE10 = db.Column(JSON(5), primary_key=True)
+    GEOID10 = db.Column(JSON(5))
+    CLASSFP10 = db.Column(JSON(2))
+    MTFCC10 = db.Column(JSON(5))
+    FUNCSTAT10 = db.Column(JSON(1))
+    ALAND10 = db.Column(JSON)
+    AWATER10 = db.Column(JSON)
+    INTPTLAT10 = db.Column(JSON)
+    INTPTLON10 = db.Column(JSON)
+    geometry = db.Column(JSON)
 
     def __repr__(self):
             return '<ZIP %r>' % self.title
