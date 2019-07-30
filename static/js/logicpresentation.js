@@ -12,8 +12,8 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: "pk.eyJ1Ijoic3Jtb250ZWlybyIsImEiOiJjandyMTJzNjgwMDgyNDNwZDUwNWpkN2NoIn0.rggDqMijR64cH-l9E6JVag"
 }).addTo(map);
 
-var link = "https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/" + 
-"il_illinois_zip_codes_geo.min.json";
+var link = "http://data.beta.nyc//dataset/0ff93d2d-90ba-457c-9f7e-39e47bf2ac5f/resource/" +
+"35dd04fb-81b3-479b-a074-a27a37888ce7/download/d085e2f8d0b54d4590b1e7d1f35594c1pediacitiesnycneighborhoods.geojson";
 
 
 
@@ -77,7 +77,7 @@ d3.json(link, function(data) {
       layer.bindPopup("<h5>" + feature.properties.neighborhood + "</h5> <hr> <h5>" + feature.properties.borough + "</h5>");
 
     }
-  }).addTo(map);
+  }).addTo(mapper);
 });
 
 // //** MODIFY THIS SECTION

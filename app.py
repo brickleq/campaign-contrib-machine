@@ -12,7 +12,7 @@
 #     jsonify,
 #     request,
 #     redirect)
-from flask import Flask
+from flask import Flask, render_template, redirect, jsonify
 from flask_cors import CORS # Development only--allow access to local and remote IP addresses
 from flask_sqlalchemy import SQLAlchemy
 
@@ -27,6 +27,12 @@ CORS(app) # Development only--allow access to local and remote IP addresses
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = connect_string
 db = SQLAlchemy(app)
+
+# Route to render index.html template using data from Mongo
+@app.route("/")
+def render_home():
+    # Return template and data
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
