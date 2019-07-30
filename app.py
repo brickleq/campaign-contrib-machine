@@ -28,26 +28,26 @@ CORS(app) # Development only--allow access to local and remote IP addresses
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = connect_string
 #%%
-import geopandas as gpd
+
 import json
-import geojson
+
 import requests
 from pprint import pprint
 
 states = {'AL':'Alabama', 'AK':'Alaska', 'AZ':'Arizona', 'AR':'Arkansas', 'CA':'California', 'CO':'Colorado', 'CT':'Connecticut', 'DC':'District of Columbia', 'DE':'Delaware', 'FL':'Florida', 'GA':'Georgia', 'HI':'Hawaii', 'ID':'Idaho', 'IL':'Illinois', 'IN':'Indiana', 'IA':'Iowa', 'KS':'Kansas', 'KY':'Kentucky', 'LA':'Louisiana', 'ME':'Maine', 'MD':'Maryland', 'MA':'Massachusetts', 'MI':'Michigan', 'MN':'Minnesota', 'MS':'Mississippi', 'MO':'Missouri', 'MT':'Montana', 'NE':'Nebraska', 'NV':'Nevada', 'NH':'New Hampshire', 'NJ':'New Jersey', 'NM':'New Mexico', 'NY':'New York', 'NC':'North Carolina', 'ND':'North Dakota', 'OH':'Ohio', 'OK':'Oklahoma', 'OR':'Oregon', 'PA':'Pennsylvania', 'RI':'Rhode Island', 'SC':'South Carolina', 'SD':'South Dakota', 'TN':'Tennessee', 'TX':'Texas', 'UT':'Utah', 'VT':'Vermont', 'VA':'Virginia', 'WA':'Washington', 'WV':'West Virginia', 'WI':'Wisconsin', 'WY':'Wyoming'}
-'''
+state_zip_paths = {}
 for abb, state in states.items():
     abb = abb.lower()
     state = state.replace(' ', '_').lower()
-    path = (f'State-zip-code-GeoJSON/{abb}_{state}_zip_codes_geo.min.json')
-    gdf = gpd.read_file(path)
-gdf
-'''
+    path = (f'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/{abb}_{state}_zip_codes_geo.min.json')
+    state_zip_paths.update({abb.upper(): path})
     # gdf = gpd.read_file(filename)
     # gdf
-# filename = '/resources/State-zip-code-GeoJSON/de_delaware_zip_codes_geo.min.json'
-# state_geojson = geojson.load('resources/State-zip-code-GeoJSON/de_delaware_zip_codes_geo.min.json')
-# pprint(state_geojson)
+print(state_zip_paths['AL'])
+illinois = requests.get(state_zip_paths['IL']).json()
+print(illinois)
+#%%
+print(Illinios['60626'])
 #%%
 gdf = gpd.read_file('zcta5.geo.json')
 #%%
