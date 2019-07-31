@@ -30,53 +30,53 @@ app.config['SQLALCHEMY_DATABASE_URI'] = connect_string
 
 db = SQLAlchemy(app)
 
-
-class zipcode_donation(db.Model):
-    __tablename__ = 'zipcode_donations'
-
-    id = db.Column(db.Integer, primary_key=True)
-    zipcode_5 = db.Column(db.Integer)
-    CAND_PARTY = db.Column(db.String(10))
-    donations_sum = db.Column(db.Float)
-    donations_median = db.Column(db.Float)
-    donations_count = db.Column(db.Integer)
-
-    def __repr__(self):
-        return '<zip %r>' % (self.zipcode_5)
-
-
-
 # create route that renders index.html template
 @app.route("/")
 def home():
     return render_template("index.html")
 
-@app.route('/api/zip/')
-@app.route("/api/zip/<search_term>")
-def zip_donations_by_party():
+@app.route('/api/donations/', defaults={'search_term': None})
+@app.route("/api/donations/<search_term>")
+def donations(search_term):
     if search_term:
-        results = db.session.query(zipcode_donation.zipcode_5,
-                                zipcode_donation.CAND_PARTY,
-                                zipcode_donation.donations_sum,
-                                zipcode_donation.donations_median,
-                                zipcode_donation.donations_count).filterby(CAND_PARTY = search_term)
+        results = db.session.execute(f'SELECT zipcode_5, donations_sum, donations_count FROM zipcode_donations WHERE CAND_PARTY = "{search_term}"')
     else:
-        results = db.session.query(zipcode_donation.zipcode_5,
-                            zipcode_donation.CAND_PARTY,
-                            zipcode_donation.donations_sum,
-                            zipcode_donation.donations_median,
-                            zipcode_donation.donations_count).all()
+        results = db.session.execute('SELECT zipcode_5, SUM(donations_sum), SUM(donations_count) FROM zipcode_donations GROUP BY zipcode_5')
     donation_data = []
     for result in results:
         donation_data.append({
             "zipcode": result[0],
-            "CAND_PARTY": result[1],
-            "donations_sum": result[2],
-            "donations_median": result[3],
-            "donations_total": result[4]
+            "donations_sum": float(result[1]),
+            "donations_count": float(result[2])
             })
     return jsonify(donation_data)
 
+@app.route("/api/census/<search_term>")
+def census(search_term):
+    results = db.session.execute(f'SELECT * FROM census_data WHERE zipcode_5 = "{search_term}"')
+    census_data = []
+    for result in results:
+        census_data.append({
+            "id": result[0],
+            "zipcode": result[1],
+            "pop_total": result[2],
+            "unemployment_rate": result[3],
+            "median_household_income": result[4],
+            "healthcare_rate": result[5],
+            "hs_graduation_rate": result[6],
+            "assoc_degree_rate": result[7],
+            "bachelor_degree_rate": result[8],
+            "grad_degree_rate": result[9],
+            })
+    return jsonify(census_data)
+
+@app.route("/api/parties/")
+def parties():
+    results = db.session.execute(f'SELECT CAND_PARTY FROM zipcode_donations GROUP BY CAND_PARTY')
+    parties_list = []
+    for result in results:
+        parties_list.append(result[0])
+    return jsonify({'parties': parties_list})
 
 if __name__ == '__main__':
     app.run(debug=True)
