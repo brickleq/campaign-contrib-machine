@@ -45,7 +45,7 @@ for abb, state in states.items():
     # gdf
 print(state_zip_paths['AL'])
 illinois = requests.get(state_zip_paths['IL']).json()
-print(illinois)
+#print(illinois)
 #%%
 print(illinois['60626'])
 #%%
