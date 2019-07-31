@@ -76,3 +76,8 @@ d3.json(link, function(data) {
     }
   }).addTo(map);
 });
+
+var api_url = '/api/donations/'
+d3.json(api_url, function(data){
+  console.log(data[0].zipcode)
+});
