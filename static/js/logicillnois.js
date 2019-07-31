@@ -1,7 +1,7 @@
 // Creating map object
 var map = L.map("map", {
-  center: [40.7128, -74.0059],
-  zoom: 11
+  center: [40.1629, -89.1896],
+  zoom: 6
 });
 
 // Adding tile layer
@@ -19,20 +19,20 @@ var link = "https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/
 
 
 // Function that will determine the color of a neighborhood based on the borough it belongs to
-function chooseColor(borough) {
-  switch (borough) {
-  case "Brooklyn":
+function chooseColor(ZCTA5CE10) {
+  switch (ZCTA5CE10) {
+  case "60626":
     return "yellow";
-  case "Bronx":
+  case "60611":
     return "red";
-  case "Manhattan":
+  case "60653":
     return "orange";
-  case "Queens":
+  case "60647":
     return "green";
-  case "Staten Island":
+  case "60632":
     return "purple";
   default:
-    return "black";
+    return "red";
   }
 }
 
@@ -45,7 +45,7 @@ d3.json(link, function(data) {
       return {
         color: "white",
         // Call the chooseColor function to decide which color to color our neighborhood (color based on borough)
-        fillColor: chooseColor(feature.properties.borough),
+        fillColor: chooseColor(feature.properties.ZCTA5CE10),
         fillOpacity: 0.5,
         weight: 1.5
       };
@@ -74,7 +74,7 @@ d3.json(link, function(data) {
         }
       });
       // Giving each feature a pop-up with information pertinent to it
-      layer.bindPopup("<h5>" + feature.properties.neighborhood + "</h5> <hr> <h5>" + feature.properties.borough + "</h5>");
+      layer.bindPopup("<h5>" + feature.properties.ZCTA5CE10 + "</h5> <hr> <h5>" + feature.properties.borough + "</h5>");
 
     }
   }).addTo(map);

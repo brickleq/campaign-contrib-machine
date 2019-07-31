@@ -47,7 +47,7 @@ print(state_zip_paths['AL'])
 illinois = requests.get(state_zip_paths['IL']).json()
 print(illinois)
 #%%
-print(Illinios['60626'])
+print(illinois['60626'])
 #%%
 gdf = gpd.read_file('zcta5.geo.json')
 #%%
@@ -79,7 +79,6 @@ db.create_all()
 if __name__ == '__main__':
     app.run(debug=True)
 
-<<<<<<< HEAD
 # Route to render index.html template using data from Mongo
 @app.route("/")
 def render_home():
@@ -88,6 +87,4 @@ def render_home():
 
 if __name__ == "__main__":
     app.run(debug=True)
-=======
 #%%
->>>>>>> 84feac128decfa053aa542b93bc441087ec2075e
