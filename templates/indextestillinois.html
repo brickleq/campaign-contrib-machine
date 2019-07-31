@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en"> 
+
+<!-- HEAD -->
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Finance Your Campaign!</title>
+
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- Leaflet CSS & JS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+        integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+        crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+        integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+        crossorigin=""></script>
+
+        <!--D3 cdn-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
+
+        <!-- BOOTSTRAP // CSS --> 
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="static/css/style.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            
+        <!-- jQuery -->
+        <script   src="https://code.jquery.com/jquery-1.12.2.min.js" integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk=" crossorigin="anonymous"></script>
+
+        <!-- Mabpox GL -->
+        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.17.0/mapbox-gl.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.17.0/mapbox-gl.css' rel='stylesheet'>
+
+        <!-- Mapbox.js (fallback) -->
+        <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+        <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
+
+        <!-- GeoViewport -->
+        <script src='//api.tiles.mapbox.com/mapbox.js/plugins/geo-viewport/v0.1.1/geo-viewport.js'></script>
+        
+    </head>
+
+<!-- BODY --> 
+
+    <body class="body">
+
+        <!-- HEADER NAV MENU BAR -->
+        <header class="header">
+            <div class="container-fullwidth">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <nav class="navbar navbar-dark fixed-top navbar-expand-lg text-right" style="background-color: #1C416B;" >
+                            
+                            <!-- LANDING PAGE // LOGO -->
+                            <a class="navbar-brand active" href="index.html">Donor Report</a>
+                            <div id="navbarSupportedContent">
+                                <ul class="nav navbar-nav text-right">
+
+                                    <!-- LANDING PAGE // INDEX.HOME -->
+                                    <li class="nav-item text-right">
+                                        <a class="nav-link text-muted" href="#">Home<span class="sr-only">(current)</span>
+                                        </a>
+                                    </li>
+                                    
+                                    <!-- REPORT GENERATED FROM FLASK QUERY -->
+                                    <li class="nav-item text-right">
+                                        <a class="nav-link text-muted" href="static/html/zip_code.html">Zip Code Query</a>
+                                    </li>
+
+                                     <!-- Featured Queries -- Back-up if live data processes to slowly for the demo -->
+                                     <li class="nav-item text-right">
+                                        <a class="nav-link text-muted" href="static/html/featured.html">Featured</a>
+                                    </li>
+
+                                    <!-- TEMPLATES TAB // PRESENTATION -->
+                                    <li class="nav-item text-right">
+                                        <a class="nav-link text-muted" href="static/html/presentation.html">Presentation</a>
+                                    </li>
+                                    
+                                    <!-- TEMPLATES DROPDOWN // STILL FIGURING OUT WHAT WE MIGHT NEED -->
+                                    
+                                    <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle text-muted" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Data Walkthrough
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item text-muted" href="static/html/data_walkthrough/acs_notebook.html">ACS 5-Year</a><br>
+                                                <a class="dropdown-item text-muted" href="static/html/data_walkthrough/fec_notebook.html">FEC Donor Data</a><br>
+                                                <a class="dropdown-item text-muted" href="static/html/data_walkthrough/mysql_db.html">MySQL Database</a><br>
+                                                <a class="dropdown-item text-muted" href="static/html/data_walkthrough/aws_db.html">AWS BigQuery</a><br>
+                                            </div>
+                                            </li>
+                                            
+
+                                    <!-- TEMPLATES TAB // ABOUT US -->
+                                    <li class="nav-item text-right">
+                                        <a class="nav-link text-muted" href="static/html/about_us.html">About Us</a>
+                                    </li>
+                                </ul>       
+                            </div>
+                        </nav>   
+                    </div>
+                </div>
+            </div>
+        </header>
+
+<!-- LEAFLET Header -->
+    
+<div>
+            
+
+        <div class="row" style="height:65%">
+            
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+  
+                      <!-- The div where we will inject our map -->
+                      <div id="map"></div>
+  
+                      <!-- Our JS -->
+                      <script type="text/javascript" src="../static/js/logicillinois.js"></script>
+  
+  
+                    </div>
+            
+            </div>
+
+            <!-- WITH HERO BANNER INSTEAD OF MAP -->
+
+            <!-- <div class="row">
+            <div class="hero">
+                <div class="text-center">
+            
+                </div>
+            </div>
+        </div> -->
+
+
+</div>           
+        
+
+<!-- MAIN -->
+        <div class="main">
+
+            <!-- Text Entry Row  ||  Do we want this to be sticky to the bottom-->
+            <div class="row  well filter-bg">
+                    <div class="container">
+                        
+                        <div class="col-lg-12 col-md-4 col-sm-4 ">
+                            <form>
+    <!-- .selectState ||  Do we want this to be sticky to the bottom-->
+
+                                <div class="col-md-2">
+                                    <input class="form-control" id="selectState" type="text" placeholder="State">
+                                </div>
+
+    <!-- .textParty ||  Do we want this to be sticky to the bottom-->
+                                <div class="col-md-2">
+                                    <input class="form-control" id="selectParty" type="text" placeholder="Party">
+                                </div>
+    <!-- .selectDistrict ||  Do we want this to be sticky to the bottom-->
+                                <div class="col-md-2">
+                                    <input class="form-control" id="selectDistrict" type="text" placeholder="Election &/or District">
+                                </div>
+
+    <!-- .selectCandidate ||  Do we want this to be sticky to the bottom-->
+                                <div class="col-md-2">
+                                    <input class="form-control" id="selectCandidate" type="text" placeholder="Candidate">
+                                </div>
+
+    <!-- .textEntryQueryBtn ||  Do we want this to be sticky to the bottom-->
+                                <div class="col-md-4">
+                                    <button id="textEntryQueryBtn" type="submit" class="btn btn-default" style="width: 50%">Generate Map</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+
+<!-- DROP DOWN Selection Row  ||  Do we want this to be sticky to the bottom
+
+            <div class="row well filter-bg" style="background-color:#494949;">
+                    <div class="container">
+
+                   
+    .selectState ||  Do we want this to be sticky to the bottom
+
+                <div class="col-lg-3 col-md-3 col-sm-3">       
+                    <h4 style="color:#FFFFFF;">State:</h4>
+                    <select id="selectState" onchange="optionChanged(this.value)" style="width:200px; background-color:#FFFFFF"></select> 
+                </div>
+                            
+    .selectCandidate ||  Do we want this to be sticky to the bottom
+                <div class="col-lg-3 col-md-3 col-sm-3"> 
+                    <h4 style="color:#FFFFFF;">Candidate:</h4>
+                    <select id="selectCandidate" onchange="optionChanged(this.value)" style="width:200px; background-color:#FFFFFF"></select>
+                </div>                
+                        
+    .selectParty ||  Do we want this to be sticky to the bottom
+                <div class="col-lg-3 col-md-3 col-sm-3"> 
+                    <h4 style="color:#FFFFFF;">Party:</h4>   
+                    <select id="selectParty" onchange="optionChanged(this.value)" style="width:200px; background-color:#FFFFFF"></select>
+                </div>
+
+                div id="the-basics">
+                        <input class="typeahead" type="text" placeholder="States of USA">
+
+                        <script type="text/javascript" src="static/js/textaheadFEC.js"></script>
+                      </div>
+
+                      
+     .selectQueryBtn ||  Do we want this to be sticky to the bottom
+                <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top:30px">
+                <button id="selectQueryBtn" type="submit" class="btn btn-default" style="width: 100%">Generate Report</button>
+                </div>
+                </div>
+            </div>   -->
+        
+
+
+<!-- Text Entry Row  ||  Do we want this to be sticky to the bottom-->
+            <div class="row  well filter-bg">
+                    <div class="container">
+                        
+                        <div class="col-lg-12 col-md-4 col-sm-4 ">
+                            <form>
+    <!-- .textZipcode ||  Do we want this to be sticky to the bottom-->
+
+                                <div class="col-md-3">
+                                    <input class="form-control" id="textZipcode" type="text" placeholder="Zip Code">
+                                </div>
+
+    <!-- .textParty ||  Do we want this to be sticky to the bottom-->
+                                <div class="col-md-3">
+                                        <input class="form-control" id="textParty" type="text" placeholder="Party">
+                                    </div>
+    <!-- .textElection ||  Do we want this to be sticky to the bottom-->
+                            <div class="col-md-3">
+                                    <input class="form-control" id="textParty" type="text" placeholder="Election &/or District">
+                                </div>
+
+    <!-- .textEntryQueryBtn ||  Do we want this to be sticky to the bottom-->
+                                <div class="col-md-3">
+                                    <button id="textEntryQueryBtn" type="submit" class="btn btn-default" style="width: 100%">Generate Report</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            
+
+<!-- Body Description of Project -->
+          
+         <div class="row">
+                <div class="container">
+                    <div class="col-lg-1 col-md-2 col-sm-1"></div>
+                    <div class="col-lg-10 col-md-4 col-sm-4">
+                        <h1 class="h1">Mapping Campaign Financiers </h1>
+                        <h5 >Drawing on publicly available <a href="static/html/fec_notebook.html">
+                            FEC Campaign Contribution datasets</a> from the 2016 Election cycle and 
+                            <a href="static/html/acs_notebook.html">ACS 5-Year Census estimates</a> at the zip code level, 
+                            this project uses machine learning techniques to identify how campaign finance influences elections. 
+                        </h5>
+                        <h5>An immediate application, political groups can quickly analyze from where donations were secured during the 2016 to better
+                            target potential donors during future campaigns. This may also serve as a way to begin to map how inside and outside political money
+                            influences elections at the local level.  
+                        </h5>
+                        <h5>In terms of scope, our dataset includes donations of $200 or greater, given directly to party committees.
+                            This only scratches the surface of on type of revenue, among the vast array of "grey money" tactics currently at play
+                            in US elections (e.g. donations given to PACs, or to related nonprofit organizations, or to politically motivated 
+                            private organizations). 
+                        </h5>
+                    </div>
+                    
+
+                        </div>
+                    <div class="col-lg-1 col-md-2 col-sm-1"></div>
+                </div>
+                
+            </div>
+            
+
+            <div class="row">
+                    <div class="container"><hr>
+                        <div class="col-lg-1 col-md-2 col-sm-1"></div>
+                        <div class="col-lg-10 col-md-4 col-sm-4">
+                            <h1 class="h1">Mapping Campaign Financiers </h1>
+                            <h5 >Drawing on publicly available <a href="static/html/fec_notebook.html">
+                                FEC Campaign Contribution datasets</a> from the 2016 Election cycle and 
+                                <a href="static/html/acs_notebook.html">ACS 5-Year Census estimates</a> at the zip code level, 
+                                his project uses machine learning techniques to identify how campaign finance influences elections. 
+                            </h5>
+                            <h5>An immediate application, political groups can quickly analyze from where donations were secured during the 2016 to better
+                                target potential donors during future campaigns. This may also serve as a way to begin to map how inside and outside political money
+                                influences elections at the local level.  
+                            </h5>
+                            <h5>In terms of scope, our dataset includes donations of $200 or greater, given directly to party committees.
+                                This only scratches the surface of on type of revenue, among the vast array of "grey money" tactics currently at play
+                                in US elections (e.g. donations given to PACs, or to related nonprofit organizations, or to politically motivated 
+                                private organizations). 
+                            </h5>
+                        </div>
+                        
+    
+                            </div>
+                        <div class="col-lg-1 col-md-2 col-sm-1"></div>
+                    </div>
+                    
+                </div>
+          <!-- BOILER PLATE CODE FOR BOOTSTRAP ROW -->
+        
+
+          <div class="row">
+                <div class="container">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+        <!-- Map Container -->
+                <div id='district'></div>
+
+                <!-- INTERACTIVE MENU -->
+                <div id='menu'>
+                <div class="selector">
+                    State:
+                    <select id='state'>
+                    <option value=""></option>
+                    </select>
+                </div>
+                <div class="selector">
+                    District:
+                    <select id='district'>
+                    <option value=''></option>
+                    </select>
+                </div>
+                </div>
+
+                <!-- Load in some useful data about the states -->
+                <script src='static/js/states.js'></script>
+                <script src='static/js/bboxes.js'></script>                 
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="container">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <br><br><br>
+                        </div>
+                    </div>
+                </div>
+
+    </body>
+
+<!-- FOOTER --> 
+<!-- Footer -->
+<footer class="page-footer font-small pt-4" style="background-color:#494949; color:#FFFFFF">
+
+        <!-- Footer Links -->
+        <div class="container-fluid text-center text-lg-left text-md-left">
+      
+          <!-- Grid row -->
+          <div class="row" style="padding-top:10px">
+            <!-- Grid column -->
+            <div class="col-md-4 mt-md-0 mt-3">
+                
+            <!-- Content -->
+                <h5 class="text-uppercase" style="text-align: left; margin-left: 50px;color:#FFFFFF">About this project<hr></h5>
+      
+            </div>
+            <!-- Grid column -->
+    
+      
+            <!-- Grid column -->
+            <div class="col-md-3 mb-md-0 mb-3">
+      
+              <!-- Links -->
+              <h5 class="text-uppercase" style="text-align: left; margin-left: 50px;color:#FFFFFF">Data Sources<hr></h5>
+      
+            </div>
+            <!-- Grid column -->
+      
+            <!-- Grid column -->
+            <div class="col-md-4 mb-md-0 mb-3">
+              <h5 class="text-uppercase" style="text-align: left; margin-left: 50px;color:#FFFFFF">DS Toolkit<hr></h5>
+            </div>
+            <div class="col-md-1 mb-md-0 mb-3"></div>
+            <!-- Grid column -->
+            
+          </div>
+ 
+
+      
+        </div>
+
+         <!-- Footer Links -->
+         <div class="container-fluid text-center text-lg-left text-md-left">
+      
+            <!-- Grid row -->
+            <div class="row" style="padding-top:10px">
+                <!-- Grid column -->
+                <div class="col-md-4 mt-md-0 mt-3">
+                    
+                <!-- Content -->
+                    <p style="text-align: left; margin-left: 50px;">
+                        Alexander Lecocq, Brickey LeQuire, Stephen Monteiro collaborated on this project 
+                        as a part of the NU Data Science Bootcamp, February - August 2019, Cohort 3. 
+                    </p>
+                    <p style="text-align: left; margin-left: 50px;">
+                        We did a thing © 2019 Copyright</p>
+                    
+        
+                </div>
+                <!-- Grid column -->
+        
+        
+                <!-- Grid column -->
+                <div class="col-md-3 mb-md-0 mb-3">
+        
+                <!-- Links -->
+        
+                <ul class="list-unstyled" style="text-align: left; margin-left: 50px;color:#FFFFFF">
+                    <li><a href="https://www.fec.gov/data/" style="color:#FFFFFF">Federal Election Commission &raquo;</a></li>
+                    <li><a href="https://www.census.gov/programs-surveys/acs/technical-documentation/table-and-geography-changes/2017/5-year.html" style="color:#FFFFFF">ACS 5-Year Estimates &raquo;</a></li>
+                    <li><a href="https://www.geocod.io/docs/?python#congressional-districts" style="color:#FFFFFF">Zip code & District GeoJSON &raquo;</a></li>
+                    <li><a href="https://github.com/brickleq/campaign-contrib-machine" style="color:#FFFFFF">Our Github Repo &raquo;</a></li>
+                </ul>
+        
+                </div>
+                <!-- Grid column -->
+        
+                <!-- Grid column -->
+                <div class="col-md-2 mb-md-0 mb-3">
+        
+                <!-- Links -->
+        
+                <ul class="list-unstyled" style="text-align: left; margin-left: 50px;color:#FFFFFF">
+                    <li><a href="https://scikit-learn.org/stable/" style="text-align: left; color:#FFFFFF">Python SciKit-Learn &raquo;</a></li>
+                    <li><a href="https://pandas.pydata.org/" style="text-align: left; color:#FFFFFF">Pandas &raquo;</a></li>
+                    <li><a href="https://geojson.org/" style="text-align: left;color:#FFFFFF">GeoJSON &raquo;</a></li>
+                    <li><a href="https://leafletjs.com/" style="text-align: left;color:#FFFFFF">Leaflet.js &raquo;</a></li>
+                    <li><a href="https://www.mysql.com/products/workbench/" style="text-align: left;color:#FFFFFF">MySQL Workbench &raquo;</a></li>
+                </ul>
+                </div>
+                <div class="col-md-2 mb-md-0 mb-3">
+        
+                <!-- Links -->
+        
+                <ul class="list-unstyled" style="text-align: left; margin-left: 50px;color:#FFFFFF">
+                <li><a href="https://www.sqlalchemy.org/" style="text-align: left;color:#FFFFFF">SQLAlchemy &raquo;</a></li>
+                <li><a href="https://flask-restful.readthedocs.io/en/latest/" style="text-align: left;color:#FFFFFF">FLASK Restful Api &raquo;</a></li>
+                <li><a href="https://aws.amazon.com/rds/sqlserver/" style="text-align: left; color:#FFFFFF">Amazon RDS &raquo;</a></li>
+                <li><a href="https://getbootstrap.com/" style="text-align: left; color:#FFFFFF">Bootstrap &raquo;</a></li>
+                <li><a href="https://pages.github.com/" style="text-align: left; color:#FFFFFF">Github Pages &raquo;</a></li>
+                </ul>
+            </div>
+                <!-- Grid column -->
+                
+            </div>
+            <div class="row" style="padding:10px">
+                    <br></div>
+                    
+            </div>
+
+        </div>
+        <!-- Footer Links -->
+
+        
+      
+      </footer>
+    
+
+      
+
+</html>
