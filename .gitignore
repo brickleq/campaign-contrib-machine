@@ -3,6 +3,10 @@ config.py
 create_users.sql
 .DS_Store
 .vscode
+**data_processing/backup
+**data_processing/by_date
+**data_processing/ACS_16_5YR_with_ann_all.csv
+**data_processing/individual_contributions.csv
 
 ## Template
 # Byte-compiled / optimized / DLL files
