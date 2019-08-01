@@ -144,11 +144,13 @@ padding: 40px;
 .hero {
     position: top;
     height: 450px;
-
+    color: white;
     margin: 0;
     background: black;
   
-    background-image: url("hero/hero_stock_image.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5),
+                    rgba(0, 0, 0, 0.5)), 
+                      url("hero/hero_stock_image.jpg");
     background-position: bottom center;
     background-size: cover;
   }
@@ -184,3 +186,37 @@ padding: 40px;
       }
 
 .selector { display: inline-block; float: left; margin: 4px; }
+
+
+/* keyframe animations which will be used to animate the title */
+@keyframes title {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    font-size: 7.5rem;
+    opacity: 1;
+  }
+}
+
+@keyframes smaller-title {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    font-size: 5.5rem;
+    opacity: 1;
+  }
+}
+
+@keyframes subtitle {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

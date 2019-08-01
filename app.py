@@ -20,7 +20,7 @@ import json
 
 # MySQL connection string
 from config import user, password, host, port, dbname
-connect_string = (f'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{dbname}')
+connect_string = (f'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{dbname}?use_pure=True')
 
 app = Flask(__name__)
 CORS(app) # Development only--allow access to local and remote IP addresses

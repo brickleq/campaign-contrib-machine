@@ -80,7 +80,31 @@ d3.json(link, function(data) {
   }).addTo(map);
 });
 
-var api_url = '/api/donations/'
-d3.json(api_url, function(data){
+
+
+var api_donations_url = '/api/donations/'
+var api_parties_url = '/api/parties/'
+
+d3.json(api_donations_url, function(data){
+  console.log(data[0].donations_count)
+  console.log(data[0].donations_sum)
   console.log(data[0].zipcode)
+
 });
+
+
+d3.json(api_parties_url, function(data){
+  console.log(data.parties)
+});
+
+var api_census_url = '/api/census/'+ zipcode
+
+d3.json(api_census_url, function(data){
+  console.log(data[0].assoc_degree_rate)
+  console.log(data[0].bachelor_degree_rate)
+  console.log(data[0].grad_degree_rate)
+  console.log(data[0].healthcare_rate)
+  console.log(data[0].assoc_degree_rate)
+  console.log(data[0].assoc_degree_rate)
+});
+
