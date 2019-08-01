@@ -10,7 +10,7 @@ from sqlalchemy.types import JSON
 
 # MySQL connection string
 from config import user, password, host, port, dbname
-connect_string = (f'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{dbname}?use_pure=True')
+connect_string = (f'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{dbname}')
 
 # Create an instance of Flask
 app = Flask(__name__)
