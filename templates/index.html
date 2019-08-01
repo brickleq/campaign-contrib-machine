@@ -26,7 +26,7 @@
         <!-- BOOTSTRAP // CSS --> 
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="static/css/style.css">
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -71,17 +71,17 @@
                                     
                                     <!-- REPORT GENERATED FROM FLASK QUERY -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="static/html/zip_code.html">Zip Code Query</a>
+                                        <a class="nav-link text-muted" href="zip_code.html">Zip Code Query</a>
                                     </li>
 
                                      <!-- Featured Queries -- Back-up if live data processes to slowly for the demo -->
                                      <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="static/html/featured.html">Featured</a>
+                                        <a class="nav-link text-muted" href="featured.html">Featured</a>
                                     </li>
 
                                     <!-- TEMPLATES TAB // PRESENTATION -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="static/html/presentation.html">Presentation</a>
+                                        <a class="nav-link text-muted" href="presentation.html">Presentation</a>
                                     </li>
                                     
                                     <!-- TEMPLATES DROPDOWN // STILL FIGURING OUT WHAT WE MIGHT NEED -->
@@ -91,17 +91,17 @@
                                                 Data Walkthrough
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <a class="dropdown-item text-muted" href="static/html/data_walkthrough/acs_notebook.html">ACS 5-Year</a><br>
-                                                <a class="dropdown-item text-muted" href="static/html/data_walkthrough/fec_notebook.html">FEC Donor Data</a><br>
-                                                <a class="dropdown-item text-muted" href="static/html/data_walkthrough/mysql_db.html">MySQL Database</a><br>
-                                                <a class="dropdown-item text-muted" href="static/html/data_walkthrough/aws_db.html">AWS BigQuery</a><br>
+                                                <a class="dropdown-item text-muted" href="data_walkthrough/acs_notebook.html">ACS 5-Year</a><br>
+                                                <a class="dropdown-item text-muted" href="data_walkthrough/fec_notebook.html">FEC Donor Data</a><br>
+                                                <a class="dropdown-item text-muted" href="data_walkthrough/mysql_db.html">MySQL Database</a><br>
+                                                <a class="dropdown-item text-muted" href="data_walkthrough/aws_db.html">AWS BigQuery</a><br>
                                             </div>
                                             </li>
                                             
 
                                     <!-- TEMPLATES TAB // ABOUT US -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="static/html/about_us.html">About Us</a>
+                                        <a class="nav-link text-muted" href="about_us.html">About Us</a>
                                     </li>
                                 </ul>       
                             </div>
@@ -124,7 +124,7 @@
                       <div id="map"></div>
   
                       <!-- Our JS -->
-                      <script type="text/javascript" src="static/js/logic.js"></script>
+                      <script type="text/javascript" src="../static/js/logic.js"></script>
   
   
                     </div>
@@ -154,30 +154,48 @@
                         
                         <div class="col-lg-12 col-md-4 col-sm-4 ">
                             <form>
+    <!-- .selectZipcode ||  Do we want this to be sticky to the bottom-->
+
+                                <div class="col-md-3">
+                                    <table>
+                                       <td><h5>Zipcode:</h5></td> 
+                                       <td style="padding-left:20px"><select id="selectZipcode" style="width:100px;" onchange="optionChanged(this.value)"></select></td> 
+                                    </table>
+                                    <!-- <input class="form-control" id="selectState" type="text" placeholder="State"> -->
+                                </div>
+
+    <!-- .selectParty ||  Do we want this to be sticky to the bottom-->
+                                <div class="col-md-3">
+                                    <table>
+                                        <td><h5>Party:</h5></td> 
+                                        <td style="padding-left:20px"><select id="selectParty" style="width:100px;" onchange="optionChanged(this.value)"></select></td> 
+                                    </table>
+                                
+
+                                    <!-- <input class="form-control" id="selectParty" type="text" placeholder="Party"> -->
+                                </div>
     <!-- .selectState ||  Do we want this to be sticky to the bottom-->
-
-                                <div class="col-md-2">
-                                    <input class="form-control" id="selectState" type="text" placeholder="State">
-                                </div>
-
-    <!-- .textParty ||  Do we want this to be sticky to the bottom-->
-                                <div class="col-md-2">
-                                    <input class="form-control" id="selectParty" type="text" placeholder="Party">
-                                </div>
-    <!-- .selectDistrict ||  Do we want this to be sticky to the bottom-->
-                                <div class="col-md-2">
-                                    <input class="form-control" id="selectDistrict" type="text" placeholder="Election &/or District">
-                                </div>
+                            <div class="col-md-3">
+                                <table>
+                                    <td ><h5>State:</h5></td> 
+                                    <td style="padding-left:20px"><select id="selectState" style="width:100px;" onchange="optionChanged(this.value)"></select></td> 
+                                </table>
+                        
+                                            <!-- <input class="form-control" id="selectDistrict" type="text" placeholder="Election &/or District"> -->
+                            </div>
+                                <div class="col-md-3">
+                                <button style="padding-top:10px" id="submit" type="submit" class="btn">Run Query</button>
+                            </div>
 
     <!-- .selectCandidate ||  Do we want this to be sticky to the bottom-->
-                                <div class="col-md-2">
+                                <!-- <div class="col-md-2">
                                     <input class="form-control" id="selectCandidate" type="text" placeholder="Candidate">
-                                </div>
+                                </div> -->
 
     <!-- .textEntryQueryBtn ||  Do we want this to be sticky to the bottom-->
-                                <div class="col-md-4">
+                                <!-- <div class="col-md-4">
                                     <button id="textEntryQueryBtn" type="submit" class="btn btn-default" style="width: 50%">Generate Map</button>
-                                </div>
+                                </div> -->
                             </form>
                         </div>
                         
@@ -191,9 +209,9 @@
                     <div class="col-lg-1 col-md-2 col-sm-1"></div>
                     <div class="col-lg-10 col-md-4 col-sm-4">
                         <h1 class="h1">Mapping Campaign Financiers </h1>
-                        <h5 >Drawing on publicly available <a href="static/html/fec_notebook.html">
+                        <h5 >Drawing on publicly available <a href="fec_notebook.html">
                             FEC Campaign Contribution datasets</a> from the 2016 Election cycle and 
-                            <a href="static/html/acs_notebook.html">ACS 5-Year Census estimates</a> at the zip code level, 
+                            <a href="acs_notebook.html">ACS 5-Year Census estimates</a> at the zip code level, 
                             this project uses machine learning techniques to identify how campaign finance influences elections. 
                         </h5>
                         <h5>An immediate application, political groups can quickly analyze from where donations were secured during the 2016 to better
@@ -214,34 +232,6 @@
                 
             </div>
             
-
-            <div class="row">
-                    <div class="container"><hr>
-                        <div class="col-lg-1 col-md-2 col-sm-1"></div>
-                        <div class="col-lg-10 col-md-4 col-sm-4">
-                            <h1 class="h1">Mapping Campaign Financiers </h1>
-                            <h5 >Drawing on publicly available <a href="static/html/fec_notebook.html">
-                                FEC Campaign Contribution datasets</a> from the 2016 Election cycle and 
-                                <a href="static/html/acs_notebook.html">ACS 5-Year Census estimates</a> at the zip code level, 
-                                his project uses machine learning techniques to identify how campaign finance influences elections. 
-                            </h5>
-                            <h5>An immediate application, political groups can quickly analyze from where donations were secured during the 2016 to better
-                                target potential donors during future campaigns. This may also serve as a way to begin to map how inside and outside political money
-                                influences elections at the local level.  
-                            </h5>
-                            <h5>In terms of scope, our dataset includes donations of $200 or greater, given directly to party committees.
-                                This only scratches the surface of on type of revenue, among the vast array of "grey money" tactics currently at play
-                                in US elections (e.g. donations given to PACs, or to related nonprofit organizations, or to politically motivated 
-                                private organizations). 
-                            </h5>
-                        </div>
-                        
-    
-                            </div>
-                        <div class="col-lg-1 col-md-2 col-sm-1"></div>
-                    </div>
-                    
-                </div>
           <!-- BOILER PLATE CODE FOR BOOTSTRAP ROW -->
         
             <div class="row">

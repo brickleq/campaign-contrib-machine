@@ -143,14 +143,14 @@ padding: 40px;
 /* The styles for the parallax */
 .hero {
     position: top;
-    height: 450px;
+    height: 500px;
     color: white;
     margin: 0;
     background: black;
   
     background-image: linear-gradient(rgba(0, 0, 0, 0.5),
                     rgba(0, 0, 0, 0.5)), 
-                      url("hero/hero_stock_image.jpg");
+                      url("hero/illinois_default.jpg");
     background-position: bottom center;
     background-size: cover;
   }

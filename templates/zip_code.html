@@ -4,29 +4,46 @@
 <!-- HEAD -->
 
     <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <title>Finance Your Campaign!</title>
-    
-            <!-- Leaflet CSS & JS -->
-            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
-            integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
-            crossorigin=""/>
-            <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
-            integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
-            crossorigin=""></script>
-    
-            <!--D3 cdn-->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
-    
-            <!-- BOOTSTRAP // CSS --> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Finance Your Campaign!</title>
+
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- Leaflet CSS & JS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+        integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+        crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+        integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+        crossorigin=""></script>
+
+        <!--D3 cdn-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
+
+        <!-- BOOTSTRAP // CSS --> 
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
             
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-            <link rel="stylesheet" type="text/css" href="../css/style.css">
-            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- jQuery -->
+        <script   src="https://code.jquery.com/jquery-1.12.2.min.js" integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk=" crossorigin="anonymous"></script>
+
+        <!-- Mabpox GL -->
+        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.17.0/mapbox-gl.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.17.0/mapbox-gl.css' rel='stylesheet'>
+
+        <!-- Mapbox.js (fallback) -->
+        <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script>
+        <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
+
+        <!-- GeoViewport -->
+        <script src='//api.tiles.mapbox.com/mapbox.js/plugins/geo-viewport/v0.1.1/geo-viewport.js'></script>
         
     </head>
 
@@ -42,19 +59,19 @@
                         <nav class="navbar navbar-dark fixed-top navbar-expand-lg text-right" style="background-color: #1C416B;" >
                             
                             <!-- LANDING PAGE // LOGO -->
-                            <a class="navbar-brand" href="../../index.html">Donor Report</a>
+                            <a class="navbar-brand active" href="index.html">Donor Report</a>
                             <div id="navbarSupportedContent">
                                 <ul class="nav navbar-nav text-right">
 
                                     <!-- LANDING PAGE // INDEX.HOME -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="../../index.html">Home<span class="sr-only">(current)</span>
+                                        <a class="nav-link text-muted" href="#">Home<span class="sr-only">(current)</span>
                                         </a>
                                     </li>
                                     
                                     <!-- REPORT GENERATED FROM FLASK QUERY -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link active" href="zip_code.html">Zip Code Query</a>
+                                        <a class="nav-link text-muted" href="zip_code.html">Zip Code Query</a>
                                     </li>
 
                                      <!-- Featured Queries -- Back-up if live data processes to slowly for the demo -->
@@ -99,137 +116,66 @@
 <div>
             
 
-        <div class="row">
+        <div class="row" style="height:65%">
             
-                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
   
-                        <!-- The div where we will inject our map -->
-                        <div id="map"></div>
-    
-                        <!-- Our JS -->
-                        <script type="text/javascript" src="../js/logic.js"></script>
-                </div>
-                
-            </div>
-
-            <!-- WITH HERO BANNER INSTEAD OF MAP -->
-
-            <!-- <div class="row">
-            <div class="hero">
-                <div class="text-center">
+                      <!-- The div where we will inject our map -->
+                      <div id="map"></div>
+  
+                      <!-- Our JS -->
+                      <script type="text/javascript" src="../static/js/logic.js"></script>
+  
+                    </div>
             
-                </div>
             </div>
-        </div> -->
 
 
-</div>    
+</div>           
+        
 
 <!-- MAIN -->
         <div class="main">
 
-<!--DROP DOWN Selection Row  ||  Do we want this to be sticky to the bottom-->
-
-            <div class="row well filter-bg" style="background-color:#494949;">
-                    <div class="container">
-
-                   
-    <!-- .selectZipcode ||  Do we want this to be sticky to the bottom-->
-
-                <div class="col-lg-3 col-md-3 col-sm-3">       
-                    <h4 style="color:#FFFFFF;">Zip Code:</h4>
-                    <select id="selectZipcode" onchange="optionChanged(this.value)" style="width:200px; background-color:#FFFFFF"></select> 
-                </div>
-                            
-    <!-- .selectCandidate ||  Do we want this to be sticky to the bottom-->
-                <div class="col-lg-3 col-md-3 col-sm-3"> 
-                    <h4 style="color:#FFFFFF;">Candidate:</h4>
-                    <select id="selectCandidate" onchange="optionChanged(this.value)" style="width:200px; background-color:#FFFFFF"></select>
-                </div>                
-                        
-    <!-- .selectParty ||  Do we want this to be sticky to the bottom-->
-                <div class="col-lg-3 col-md-3 col-sm-3"> 
-                    <h4 style="color:#FFFFFF;">Party:</h4>   
-                    <select id="selectParty" onchange="optionChanged(this.value)" style="width:200px; background-color:#FFFFFF"></select>
-                </div>
-    <!-- .selectQueryBtn ||  Do we want this to be sticky to the bottom-->
-                <div class="col-lg-3 col-md-3 col-sm-3" style="padding-top:30px">
-                <button id="selectQueryBtn" type="submit" class="btn btn-default" style="width: 100%">Generate Report</button>
-                </div>
-                </div>
-            </div>
-            </div>  
-
-
-<!-- Text Entry Row  ||  Do we want this to be sticky to the bottom-->
+            <!-- Text Entry Row  ||  Do we want this to be sticky to the bottom-->
             <div class="row  well filter-bg">
-                    <div class="container">
-                        
-                        <div class="col-lg-12 col-md-4 col-sm-4 ">
-                            <form>
-    <!-- .textZipcode ||  Do we want this to be sticky to the bottom-->
-
-                                <div class="col-md-3">
-                                    <input class="form-control" id="textZipcode" type="text" placeholder="Zip Code">
-                                </div>
-
-    <!-- .textParty ||  Do we want this to be sticky to the bottom-->
-                                <div class="col-md-3">
-                                        <input class="form-control" id="textParty" type="text" placeholder="Party">
-                                    </div>
-    <!-- .textElection ||  Do we want this to be sticky to the bottom-->
-                            <div class="col-md-3">
-                                    <input class="form-control" id="textParty" type="text" placeholder="Election &/or District">
-                                </div>
-
-    <!-- .textEntryQueryBtn ||  Do we want this to be sticky to the bottom-->
-                                <div class="col-md-3">
-                                    <button id="textEntryQueryBtn" type="submit" class="btn btn-default" style="width: 100%">Generate Report</button>
-                                </div>
-                            </form>
-                        </div>
-                        
-                    </div>
-                </div>
-
-            <!-- Test with Text Entry filter button, may not be necessary  ||  Do we want this to be sticky to the bottom-->
-            
-        </div>  
-            
-
-
-<!-- Body Description of Project -->
-          
-         <div class="row">
                 <div class="container">
-                    <div class="col-lg-1 col-md-2 col-sm-1"></div>
-                    <div class="col-lg-10 col-md-4 col-sm-4">
-                        <h1 class="h1">Mapping Campaign Financiers </h1>
-                        <h5>Drawing on publicly available <a href="fec_notebook.html">
-                            FEC Campaign Contribution datasets</a> from the 2016 Election cycle and 
-                            <a href="acs_notebook.html">ACS 5-Year Census estimates</a> at the zip code level, 
-                            this project uses machine learning techniques to identify how campaign finance influences elections. 
-                        </h5>
-                        <h5>An immediate application, political groups can quickly analyze from where donations were secured during the 2016 to better
-                            target potential donors during future campaigns. This may also serve as a way to begin to map how inside and outside political money
-                            influences elections at the local level.  
-                        </h5>
-                        <h5>In terms of scope, our dataset includes donations of $200 or greater, given directly to party committees.
-                            This only scratches the surface of on type of revenue, among the vast array of "grey money" tactics currently at play
-                            in US elections (e.g. donations given to PACs, or to related nonprofit organizations, or to politically motivated 
-                            private organizations). 
-                        </h5>
-                    </div>
-                    
-
+                    <div class="col-lg-12 col-md-4 col-sm-4 ">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Key Demographics: {{ data.zipcode }} </h3>               <!-- LANDING : Zipcode -->
+                            </div>
+                            <div>
+                                <table style="padding:10px">
+                                    <tr style="padding:10px">
+                                        <th style="padding:10px"><h5>Economic</h5></th>
+                                        <th style="padding:10px"><h5>Education (Highest Degree Earned)</th>
+                                    </tr>
+                                    <tr style="padding:10px">
+                                        <td style="padding:10px">Population: {{ data.pop_total }}</td>                                <!-- LANDING : Population --> 
+                                        <td style="padding:10px">High School: {{ data.hs_graduation_rate }}</td>                      <!-- LANDING : hs_graduation_rate -->
+                                    </tr>
+                                    <tr style="padding:10px">
+                                        <td style="padding:10px">Median Household Income: {{ data.median_household_income }}</td>     <!-- LANDING : Median Household -->
+                                        <td style="padding:10px">Associate's: {{ data.assoc_degree_rate }}</td>                       <!-- LANDING : Associates -->
+                                    </tr>
+                                    <tr style="padding:10px">
+                                        <td style="padding:10px">Unemployment Rate: {{ data.unemployment_rate }}</td>                 <!-- LANDING : Unemployment --> 
+                                        <td style="padding:10px">Bachelor's: {{ data.bachelor_degree_rate }}</td>                     <!-- LANDING : Bachelors --> 
+                                    </tr>
+                                    <tr style="padding:10px">
+                                        <td style="padding:10px">Has Health Insurace {{ data.healthcare_rate }}</td>                  <!-- LANDING : Healthcare --> 
+                                        <td style="padding:10px">Graduate: {{ data.grad_degree_rate }}</td>                           <!-- LANDING : Graduate Degree --> 
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                    <div class="col-lg-1 col-md-2 col-sm-1"></div>
-                </div>
-            </div>     
-        </div>
+                    </div>
+                </div>  
+            </div>
 
-          <!-- BOILER PLATE CODE FOR BOOTSTRAP ROW -->
-          
+<!-- BOILER PLATE CODE FOR BOOTSTRAP ROW -->
+        
             <div class="row">
                     <div class="container">
                         <div class="col-lg-12 col-md-12 col-sm-12">
