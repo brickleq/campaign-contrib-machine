@@ -20,7 +20,7 @@ import json
 
 # MySQL connection string
 from config import user, password, host, port, dbname
-connect_string = (f'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{dbname}')
+connect_string = (f'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{dbname}?use_pure=True')
 
 app = Flask(__name__)
 CORS(app) # Development only--allow access to local and remote IP addresses
@@ -35,21 +35,21 @@ db = SQLAlchemy(app)
 def home():
     return render_template("index.html")
 
-states = {'AL':'Alabama', 'AK':'Alaska', 'AZ':'Arizona', 'AR':'Arkansas', 'CA':'California', 'CO':'Colorado', 'CT':'Connecticut', 'DC':'District of Columbia', 'DE':'Delaware', 'FL':'Florida', 'GA':'Georgia', 'HI':'Hawaii', 'ID':'Idaho', 'IL':'Illinois', 'IN':'Indiana', 'IA':'Iowa', 'KS':'Kansas', 'KY':'Kentucky', 'LA':'Louisiana', 'ME':'Maine', 'MD':'Maryland', 'MA':'Massachusetts', 'MI':'Michigan', 'MN':'Minnesota', 'MS':'Mississippi', 'MO':'Missouri', 'MT':'Montana', 'NE':'Nebraska', 'NV':'Nevada', 'NH':'New Hampshire', 'NJ':'New Jersey', 'NM':'New Mexico', 'NY':'New York', 'NC':'North Carolina', 'ND':'North Dakota', 'OH':'Ohio', 'OK':'Oklahoma', 'OR':'Oregon', 'PA':'Pennsylvania', 'RI':'Rhode Island', 'SC':'South Carolina', 'SD':'South Dakota', 'TN':'Tennessee', 'TX':'Texas', 'UT':'Utah', 'VT':'Vermont', 'VA':'Virginia', 'WA':'Washington', 'WV':'West Virginia', 'WI':'Wisconsin', 'WY':'Wyoming'}
-state_zip_paths = {}
-for abb, state in states.items():
-    abb = abb.lower()
-    state = state.replace(' ', '_').lower()
-    path = (f'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/{abb}_{state}_zip_codes_geo.min.json')
-    state_zip_paths.update({abb.upper(): path})
-    # gdf = gpd.read_file(filename)
-    # gdf
-print(state_zip_paths['AL'])
-illinois = requests.get(state_zip_paths['IL']).json()
-print(illinois['60626'])
-gdf = gpd.read_file('zcta5.geo.json')
+# states = {'AL':'Alabama', 'AK':'Alaska', 'AZ':'Arizona', 'AR':'Arkansas', 'CA':'California', 'CO':'Colorado', 'CT':'Connecticut', 'DC':'District of Columbia', 'DE':'Delaware', 'FL':'Florida', 'GA':'Georgia', 'HI':'Hawaii', 'ID':'Idaho', 'IL':'Illinois', 'IN':'Indiana', 'IA':'Iowa', 'KS':'Kansas', 'KY':'Kentucky', 'LA':'Louisiana', 'ME':'Maine', 'MD':'Maryland', 'MA':'Massachusetts', 'MI':'Michigan', 'MN':'Minnesota', 'MS':'Mississippi', 'MO':'Missouri', 'MT':'Montana', 'NE':'Nebraska', 'NV':'Nevada', 'NH':'New Hampshire', 'NJ':'New Jersey', 'NM':'New Mexico', 'NY':'New York', 'NC':'North Carolina', 'ND':'North Dakota', 'OH':'Ohio', 'OK':'Oklahoma', 'OR':'Oregon', 'PA':'Pennsylvania', 'RI':'Rhode Island', 'SC':'South Carolina', 'SD':'South Dakota', 'TN':'Tennessee', 'TX':'Texas', 'UT':'Utah', 'VT':'Vermont', 'VA':'Virginia', 'WA':'Washington', 'WV':'West Virginia', 'WI':'Wisconsin', 'WY':'Wyoming'}
+# state_zip_paths = {}
+# for abb, state in states.items():
+#     abb = abb.lower()
+#     state = state.replace(' ', '_').lower()
+#     path = (f'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/{abb}_{state}_zip_codes_geo.min.json')
+#     state_zip_paths.update({abb.upper(): path})
+#     # gdf = gpd.read_file(filename)
+#     # gdf
+# print(state_zip_paths['AL'])
+# illinois = requests.get(state_zip_paths['IL']).json()
+# print(illinois['60626'])
+# gdf = gpd.read_file('zcta5.geo.json')
 
-gdf
+# gdf
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
