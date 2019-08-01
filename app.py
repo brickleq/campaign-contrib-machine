@@ -45,11 +45,10 @@ for abb, state in states.items():
     # gdf = gpd.read_file(filename)
     # gdf
 print(state_zip_paths['AL'])
-illinois = requests.get(state_zip_paths['IL']).json()
-print(illinois['60626'])
-gdf = gpd.read_file('zcta5.geo.json')
-
-gdf
+# illinois = requests.get(state_zip_paths['IL']).json()
+# print(illinois['60626'])
+# gdf = gpd.read_file('zcta5.geo.json')
+# gdf
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
