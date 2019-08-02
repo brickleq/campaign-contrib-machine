@@ -89,7 +89,7 @@ def census_request(search_term):
     for result in results:
         census_data.append({
             "id": result[0],
-            "zipcode": result[1],
+            "zipcode": result[1],  
             "pop_total": result[2],
             "unemployment_rate": round(result[3] * 100, 1),
             "median_household_income": result[4],
@@ -104,7 +104,7 @@ def census_request(search_term):
 
 @app.route("/api/census/<zipcode>")
 def census(zipcode):
-    return jsonify(census_request(zipcode))
+    return jsonify(census_request(zipcode))    # hthl
 
 
 @app.route("/api/parties/")
@@ -121,71 +121,71 @@ def zipcode_profile(zipcode):
     return render_template("zip_code.html", data=data[0])
 @app.route("/featured")
 def featured():
-    return render_template("featured.html")
+    return render_template("featured")
 
 @app.route("/presentation")
 def presentation():
-    return render_template("presentation.html")
+    return render_template("presentation")
 
 @app.route("/presentation/goals")
 def goals():
-    return render_template("goals.html")
+    return render_template("goals")
     
 @app.route("/presentation/investors")
 def investors():
-    return render_template("investors.html")
+    return render_template("investors")
 
 @app.route("/presentation/structure")
 def structure():
-    return render_template("structure.html")
+    return render_template("structure")
 
 @app.route("/presentation/jupyter")
 def jupyter():
-    return render_template("jupyter.html")
+    return render_template("jupyter")
 
 @app.route("/presentation/machine_learning")
 def machine_learning():
-    return render_template("machine_learning.html")
+    return render_template("machine_learning")
 
 @app.route("/presentation/database")
 def database():
-    return render_template("database.html")
+    return render_template("database")
 
 @app.route("/presentation/flask_app")
 def flask_app():
-    return render_template("flask_app.html")
+    return render_template("flask_app")
 
 @app.route("/presentation/leaflet")
 def leaflet():
-    return render_template("leaflet.html")
+    return render_template("leaflet")
 
 @app.route("/presentation/conclusion")
 def conclusion():
-    return render_template("conclusion.html")  
+    return render_template("conclusion")  
 
 @app.route("/data_walkthrough")
 def data_walkthrough():
-    return render_template("data_walkthrough.html")
+    return render_template("data_walkthrough")
 
 @app.route("/data_walkthrough/acs_notebook")
 def acs_notebook():
-    return render_template("acs_notebook.html")
+    return render_template("acs_notebook")
 
 @app.route("/data_walkthrough/aws_db")
 def aws_db():
-    return render_template("aws_db.html")
+    return render_template("aws_db")
 
 @app.route("/data_walkthrough/fec_notebook")
 def fec_notebook():
-    return render_template("fec_notebook.html")
+    return render_template("fec_notebook")
 
 @app.route("/data_walkthrough/mysql_db")
 def mysql_db():
-    return render_template("mysql_db.html")
+    return render_template("mysql_db")
 
 @app.route("/about_us")
 def about_us():
-    return render_template("about_us.html")
+    return render_template("about_us")
 
 
 
