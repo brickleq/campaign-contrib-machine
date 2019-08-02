@@ -119,6 +119,9 @@ def parties():
 def zipcode_profile(zipcode):
     data = census_request(zipcode)
     return render_template("zip_code.html", data=data[0])
+@app.route("/featured")
+def featured():
+    return render_template("featured.html")
 
 @app.route("/presentation")
 def presentation():
@@ -147,6 +150,45 @@ def machine_learning():
 @app.route("/presentation/database")
 def database():
     return render_template("database.html")
+
+@app.route("/presentation/flask_app")
+def flask_app():
+    return render_template("flask_app.html")
+
+@app.route("/presentation/leaflet")
+def leaflet():
+    return render_template("leaflet.html")
+
+@app.route("/presentation/conclusion")
+def conclusion():
+    return render_template("conclusion.html")  
+
+@app.route("/data_walkthrough")
+def data_walkthrough():
+    return render_template("data_walkthrough.html")
+
+@app.route("/data_walkthrough/acs_notebook")
+def acs_notebook():
+    return render_template("acs_notebook.html")
+
+@app.route("/data_walkthrough/aws_db")
+def aws_db():
+    return render_template("aws_db.html")
+
+@app.route("/data_walkthrough/fec_notebook")
+def fec_notebook():
+    return render_template("fec_notebook.html")
+
+@app.route("/data_walkthrough/mysql_db")
+def mysql_db():
+    return render_template("mysql_db.html")
+
+@app.route("/about_us")
+def about_us():
+    return render_template("about_us.html")
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
