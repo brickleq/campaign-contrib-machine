@@ -69,6 +69,79 @@ d3.json(link, function(data) {
 });
 
 
+ // PARTY SELECTOR 
+
+ function init() {
+  // Grab a reference to the dropdown select element
+  var selector = d3.select("#selectParty");
+  console.log(selector)
+  // Use the list of sample names to populate the select options
+  d3.json('/api/parties/', function(data) {
+    
+    console.log(data.parties); 
+    
+    partyArray = data.parties
+
+    partyArray.forEach(function(party) {
+      selector
+        .append("option")
+        .text(party)
+        .property("value", party);
+      
+    });
+    
+    // // Use the first sample from the list to build the initial plots
+    // const partyName = party[0];
+    // console.log(partyName);
+    // buildCharts(partyName);
+    // buildMetadata(partyName);
+  
+});
+}
+
+function optionChanged(party) {
+  // // Fetch new data each time a new sample is selected
+  // buildCharts(party);
+  // buildMetadata(party);
+}
+
+// Initialize the dashboard
+init();
+
+
+
+// ZIPCODE SELECTOR 
+
+    // function init() {
+    //   // Grab a reference to the dropdown select element
+    //   var zipselector = d3.select("#selectZipcode");
+    //   //console.log(selector)
+    //   // Use the list of sample names to populate the select options
+    //   d3.json("/api/census/").then((zipcode) => {
+    //     //console.log(sampleNames[0]);
+    //     zipcode.forEach((zip) => {
+    //       zipselector
+    //         .append("option")
+    //         .text(zip)
+    //         .property("value", zip);
+          
+    //     });
+        
+    //     // Use the first sample from the list to build the initial plots
+    //     const firstZip = zipcode[0];
+    //     console.log(firstZip);
+    //     buildCharts(firstZip);
+    //     buildMetadata(firstZip);
+    //   });
+    // }
+    
+    // function optionChanged(zipcode) {
+    //   // Fetch new data each time a new sample is selected
+    //   buildCharts(zipcode);
+    //   buildMetadata(zipcode);
+    // }
+
+
 
 var api_donations_url = '/api/donations/'
 var api_parties_url = '/api/parties/'
