@@ -32,7 +32,7 @@
 
 <!-- BODY --> 
 
-    <body class="body" style="background-color:#494949">
+    <body class="body" style="background-color:#FFFFFF">
 
         <!-- HEADER NAV MENU BAR -->
         <header class="header">
@@ -96,17 +96,38 @@
 
 <!-- LEAFLET Header -->
     
-    <div>
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-
-                <!-- The div where we will inject our map -->
-                <div id="map"></div>
-
-                <!-- Our JS -->
-                <script type="text/javascript" src="../../static/js/logic.js"></script>
-
+    <!-- <div>
+            <div class="row" >
+                    <div class="container-fluid">  
+                    <div class="col-lg-12  col-md-4 col-sm-4" style="padding-top: 40px;" >
+                            
+                            <h1 style="text-align: center; padding-right:30px"><b>Mapping Influence & Predicting Donors</b></h1>
+                    </div>
+                    
+                </div>
             </div>
+        </div>   -->
+        <div class="row">
+            <div class="container-fluid">   
+                    <div class="col-lg-3 col-md-4 col-sm-4" ></div>
+                
+            <div class="col-lg-6 col-md-4 col-sm-4" style="padding-top:10%; " >
+                    
+                <a href="https://www.fec.gov/data/">
+                    <img src="../../static/images/FEC_Logo_189x189.svg"  style="padding-bottom:20px" alt="Federal Election Commission Logo">
+                </a>
+                <a href="https://www.census.gov/programs-surveys/acs/technical-documentation/table-and-geography-changes/2017/5-year.html">
+                    <img src="../../static/images/ACS_Logo_600x270.jpg" style="width:422px;height:189px;padding-bottom:20px" alt="American Community Survey, US Census Logo">
+                </a>
+                    <h5 >Drawing on publicly available <a href="../data_walkthrough/fec_notebook.html">
+                        FEC Campaign Contribution datasets</a> from the 2016 Election cycle and 
+                        <a href="../data_walkthrough/acs_notebook.html">ACS 5-Year Census estimates</a> at the zip code level, 
+                        this project uses machine learning techniques to identify how campaign finance influences elections, 
+                        and to predict future campaign donors. 
+                    </h5>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-4" ></div>
+        </div>
         </div>
     </div>  
 

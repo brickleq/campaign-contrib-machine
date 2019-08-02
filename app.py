@@ -117,5 +117,10 @@ def render_home():
     # Return template and data
     return render_template("index.html")
 
+# @app.route("/presentation.html")
+# def render_presentation():
+#     # Return template and data
+#     return render_template("presentation.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
