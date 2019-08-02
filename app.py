@@ -51,6 +51,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.types import JSON
 
 
+
 # create route that renders index.html template
 @app.route("/")
 def home():
@@ -81,8 +82,8 @@ def donations(search_term):
             })
     return jsonify({"type": "FeatureCollection", "features": features, "maximums": maximums})
 
-@app.route("/api/census/<search_term>")
-def census(search_term):
+
+def census_request(search_term):
     results = db.session.execute(f'SELECT * FROM census_data WHERE zipcode_5 = "{search_term}"')
     census_data = []
     for result in results:
@@ -90,15 +91,21 @@ def census(search_term):
             "id": result[0],
             "zipcode": result[1],
             "pop_total": result[2],
-            "unemployment_rate": result[3],
+            "unemployment_rate": round(result[3] * 100, 1),
             "median_household_income": result[4],
-            "healthcare_rate": result[5],
-            "hs_graduation_rate": result[6],
-            "assoc_degree_rate": result[7],
-            "bachelor_degree_rate": result[8],
-            "grad_degree_rate": result[9],
+            "healthcare_rate": round(result[5] * 100, 1),
+            "hs_graduation_rate": round(result[6] * 100, 1),
+            "assoc_degree_rate": round(result[7] * 100, 1),
+            "bachelor_degree_rate": round(result[8] * 100, 1),
+            "grad_degree_rate": round(result[9] * 100, 1),
             })
-    return jsonify(census_data)
+    return census_data
+
+
+@app.route("/api/census/<zipcode>")
+def census(zipcode):
+    return jsonify(census_request(zipcode))
+
 
 @app.route("/api/parties/")
 def parties():
@@ -108,6 +115,10 @@ def parties():
         parties_list.append(result[0])
     return jsonify({'parties': parties_list})
 
+@app.route("/zipcode/<zipcode>")
+def zipcode_profile(zipcode):
+    data = census_request(zipcode)
+    return render_template("zip_code.html", data=data[0])
 @app.route("/featured")
 def featured():
     return render_template("featured.html")
