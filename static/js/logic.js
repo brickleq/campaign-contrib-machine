@@ -12,42 +12,34 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: "pk.eyJ1Ijoic3Jtb250ZWlybyIsImEiOiJjandyMTJzNjgwMDgyNDNwZDUwNWpkN2NoIn0.rggDqMijR64cH-l9E6JVag"
 }).addTo(map);
 
-var link = "https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/" + 
-"il_illinois_zip_codes_geo.min.json";
-
-
-
+var link = "/api/donations/";
 
 // Function that will determine the color of a neighborhood based on the borough it belongs to
-function chooseColor(ZCTA5CE10) {
-  switch (ZCTA5CE10) {
-  case "60626":
-    return "yellow";
-  case "60611":
-    return "red";
-  case "60653":
-    return "orange";
-  case "60647":
-    return "green";
-  case "60632":
-    return "purple";
-  default:
-    return "red";
-  }
+function chooseColor(indicator, maximum) {
+  var H_value = (1 - (indicator / maximum))*100;
+  return 'hsl(' + H_value + ', 100%, 50%)';
 }
+
+function chooseOpacity(indicator, maximum) {
+  var H_value = (indicator / maximum);
+  return H_value;
+}
+
+var map_variant = 'donations_sum'
 
 // Grabbing our GeoJSON data..
 d3.json(link, function(data) {
   // Creating a geoJSON layer with the retrieved data
+  var maximum = data.maximums[map_variant]
   L.geoJson(data, {
     // Style each feature (in this case a neighborhood)
     style: function(feature) {
+      if (maximum < feature.properties[map_variant]){
+      }
       return {
-        color: "white",
-        // Call the chooseColor function to decide which color to color our neighborhood (color based on borough)
-        fillColor: chooseColor(feature.properties.ZCTA5CE10),
-        fillOpacity: 0.5,
-        weight: 1.5
+        color: 'red',
+        fillOpacity: chooseOpacity(feature.properties[map_variant], maximum),
+        weight: 1
       };
     },
     // Called on each feature
@@ -58,23 +50,19 @@ d3.json(link, function(data) {
         mouseover: function(event) {
           layer = event.target;
           layer.setStyle({
-            fillOpacity: 0.9
+            fillOpacity: 1
           });
         },
         // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to 50%
         mouseout: function(event) {
           layer = event.target;
           layer.setStyle({
-            fillOpacity: 0.5
+            fillOpacity: chooseOpacity(feature.properties[map_variant], maximum)
           });
-        },
-        // When a feature (neighborhood) is clicked, it is enlarged to fit the screen
-        click: function(event) {
-          map.fitBounds(event.target.getBounds());
         }
       });
       // Giving each feature a pop-up with information pertinent to it
-      layer.bindPopup("<h5>" + feature.properties.ZCTA5CE10 + "</h5> <hr> <h5>" + feature.properties.borough + "</h5>");
+      layer.bindPopup("<strong>Zipcode</strong> " + feature.properties.zipcode + "<hr> <strong>" + map_variant + ":</strong> $" + feature.properties[map_variant]);
 
     }
   }).addTo(map);
@@ -84,27 +72,3 @@ d3.json(link, function(data) {
 
 var api_donations_url = '/api/donations/'
 var api_parties_url = '/api/parties/'
-
-d3.json(api_donations_url, function(data){
-  console.log(data[0].donations_count)
-  console.log(data[0].donations_sum)
-  console.log(data[0].zipcode)
-
-});
-
-
-d3.json(api_parties_url, function(data){
-  console.log(data.parties)
-});
-
-var api_census_url = '/api/census/'+ zipcode
-
-d3.json(api_census_url, function(data){
-  console.log(data[0].assoc_degree_rate)
-  console.log(data[0].bachelor_degree_rate)
-  console.log(data[0].grad_degree_rate)
-  console.log(data[0].healthcare_rate)
-  console.log(data[0].assoc_degree_rate)
-  console.log(data[0].assoc_degree_rate)
-});
-

@@ -56,26 +56,30 @@ from sqlalchemy.types import JSON
 def home():
     return render_template("index.html")
 
-@app.route('/api/donations/', defaults={'search_term': None})
+@app.route('/api/donations/', defaults={'search_term': 'TOTAL'})
 @app.route("/api/donations/<search_term>")
 def donations(search_term):
-    if search_term:
-        results = db.session.execute(f'SELECT zipcode_5, donations_sum, donations_count, geometry FROM zipcode_donations WHERE CAND_PARTY = "{search_term}"')
-    else:
-        results = db.session.execute('SELECT zipcode_5, SUM(donations_sum), SUM(donations_count), geometry FROM zipcode_donations GROUP BY zipcode_5')
-    donation_data = []
-    for result in results:
-        try:
-            geometry = json.loads(result[3])
-        except:
-            geometry = 'suck'
-        donation_data.append({
-            "zipcode": result[0],
-            "donations_sum": float(result[1]),
-            "donations_count": float(result[2]),
+    donation_results = db.session.execute(f'SELECT zd.zipcode_5, donations_sum, donations_median, donations_count, zipcode_geojson FROM zipcode_donations zd join zi_p5 on zi_p5.zipcode_5 = zd.zipcode_5 WHERE CAND_PARTY = "{search_term}"')
+    maximums_results = db.session.execute(f'SELECT max(donations_sum), max(donations_median), max(donations_count) FROM zipcode_donations WHERE CAND_PARTY = "{search_term}"').first()
+    features = []
+    maximums = {
+        "donations_sum": float(maximums_results[0]),
+        "donations_median": float(maximums_results[1]),
+        "donations_count": float(maximums_results[2])
+    }
+    for result in donation_results:
+        geometry = json.loads(result[4])
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "zipcode": result[0],
+                "donations_sum": float(result[1]),
+                "donations_median": float(result[2]),
+                "donations_count": float(result[3])
+            },
             "geometry": geometry
             })
-    return jsonify(donation_data)
+    return jsonify({"type": "FeatureCollection", "features": features, "maximums": maximums})
 
 @app.route("/api/census/<search_term>")
 def census(search_term):
