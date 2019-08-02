@@ -108,14 +108,42 @@ def parties():
         parties_list.append(result[0])
     return jsonify({'parties': parties_list})
 
+@app.route("/presentation")
+def presentation():
+    return render_template("presentation.html")
+
+@app.route("/presentation/goals")
+def goals():
+    return render_template("goals.html")
+    
+@app.route("/presentation/investors")
+def investors():
+    return render_template("investors.html")
+
+@app.route("/presentation/structure")
+def structure():
+    return render_template("structure.html")
+
+@app.route("/presentation/jupyter")
+def jupyter():
+    return render_template("jupyter.html")
+
+@app.route("/presentation/machine_learning")
+def machine_learning():
+    return render_template("machine_learning.html")
+
+@app.route("/presentation/database")
+def database():
+    return render_template("database.html")
+
 if __name__ == '__main__':
     app.run(debug=True)
 
 # Route to render index.html template using data from Mongo
-@app.route("/")
-def render_home():
-    # Return template and data
-    return render_template("index.html")
+# @app.route("/")
+# def render_home():
+#     # Return template and data
+#     return render_template("index.html")
 
 # @app.route("/presentation.html")
 # def render_presentation():
