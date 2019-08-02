@@ -1,40 +1,24 @@
-CREATE TABLE `candidate_committees` (
-  `CAND_ID` varchar(9) DEFAULT NULL,
-  `CAND_ELECTION_YR` int(4) DEFAULT NULL,
-  `FEC_ELECTION_YR` int(4) DEFAULT NULL,
-  `CMTE_ID` varchar(9) DEFAULT NULL,
-  `CMTE_TP` varchar(1) DEFAULT NULL,
-  `CMTE_DSGN` varchar(1) DEFAULT NULL,
-  `LINKAGE_ID` int(12) NOT NULL,
-  PRIMARY KEY (`LINKAGE_ID`)
-);
+CREATE TABLE `census_data` (
+  `id` int(11) NOT NULL,
+  `zipcode_5` int(11) DEFAULT NULL,
+  `pop_total` int(11) DEFAULT NULL,
+  `unemployment_rate` double DEFAULT NULL,
+  `median_household_income` double DEFAULT NULL,
+  `healthcare_rate` double DEFAULT NULL,
+  `hs_graduation_rate` double DEFAULT NULL,
+  `assoc_degree_rate` double DEFAULT NULL,
+  `bachelor_degree_rate` double DEFAULT NULL,
+  `grad_degree_rate` double DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `contributions` (
-  `CMTE_ID` varchar(9) DEFAULT NULL,
-  `TRANSACTION_PGI` varchar(5) DEFAULT NULL,
-  `ZIP_CODE` varchar(9) DEFAULT NULL,
-  `TRANSACTION_DT` varchar(8) DEFAULT NULL,
-  `TRANSACTION_AMT` double(14,2) DEFAULT NULL,
-  `SUB_ID` varchar(19) NOT NULL,
-  `zipcode_5` varchar(5) DEFAULT NULL,
-  PRIMARY KEY (`SUB_ID`)
-);
-
-CREATE TABLE `candidates` (
-  `CAND_ID` varchar(9) NOT NULL,
-  `CAND_NAME` varchar(200) DEFAULT NULL,
-  `CAND_PTY_AFFILIATION` varchar(3) DEFAULT NULL,
-  `CAND_ELECTION_YR` int(4) DEFAULT NULL,
-  `CAND_OFFICE_ST` varchar(2) DEFAULT NULL,
-  `CAND_OFFICE` varchar(1) DEFAULT NULL,
-  `CAND_OFFICE_DISTRICT` varchar(2) DEFAULT NULL,
-  `CAND_ICI` varchar(1) DEFAULT NULL,
-  `CAND_STATUS` varchar(1) DEFAULT NULL,
-  `CAND_PCC` varchar(9) DEFAULT NULL,
-  `CAND_ST1` varchar(34) DEFAULT NULL,
-  `CAND_ST2` varchar(34) DEFAULT NULL,
-  `CAND_CITY` varchar(30) DEFAULT NULL,
-  `CAND_ST` varchar(2) DEFAULT NULL,
-  `CAND_ZIP` varchar(9) DEFAULT NULL,
-  PRIMARY KEY (`CAND_ID`)
-);
+CREATE TABLE `zipcode_donations` (
+  `id` int(11) NOT NULL,
+  `zipcode_5` int(11) DEFAULT NULL,
+  `CAND_PARTY` text,
+  `donations_sum` double DEFAULT NULL,
+  `donations_median` double DEFAULT NULL,
+  `donations_count` int(11) DEFAULT NULL,
+  `geometry` longtext,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

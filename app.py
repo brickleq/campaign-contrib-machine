@@ -60,15 +60,20 @@ def home():
 @app.route("/api/donations/<search_term>")
 def donations(search_term):
     if search_term:
-        results = db.session.execute(f'SELECT zipcode_5, donations_sum, donations_count FROM zipcode_donations WHERE CAND_PARTY = "{search_term}"')
+        results = db.session.execute(f'SELECT zipcode_5, donations_sum, donations_count, geometry FROM zipcode_donations WHERE CAND_PARTY = "{search_term}"')
     else:
-        results = db.session.execute('SELECT zipcode_5, SUM(donations_sum), SUM(donations_count) FROM zipcode_donations GROUP BY zipcode_5')
+        results = db.session.execute('SELECT zipcode_5, SUM(donations_sum), SUM(donations_count), geometry FROM zipcode_donations GROUP BY zipcode_5')
     donation_data = []
     for result in results:
+        try:
+            geometry = json.loads(result[3])
+        except:
+            geometry = 'suck'
         donation_data.append({
             "zipcode": result[0],
             "donations_sum": float(result[1]),
-            "donations_count": float(result[2])
+            "donations_count": float(result[2]),
+            "geometry": geometry
             })
     return jsonify(donation_data)
 
