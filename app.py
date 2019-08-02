@@ -1,11 +1,3 @@
-#%%
-# Dependencies
-
-# import json
-# import sqlalchemy
-# from sqlalchemy.ext.automap import automap_base
-# from sqlalchemy.orm import Session
-# from sqlalchemy import create_engine, func
 from flask import (
     Flask,
     render_template,
@@ -29,28 +21,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = connect_string
 
 db = SQLAlchemy(app)
-
-
-# states = {'AL':'Alabama', 'AK':'Alaska', 'AZ':'Arizona', 'AR':'Arkansas', 'CA':'California', 'CO':'Colorado', 'CT':'Connecticut', 'DC':'District of Columbia', 'DE':'Delaware', 'FL':'Florida', 'GA':'Georgia', 'HI':'Hawaii', 'ID':'Idaho', 'IL':'Illinois', 'IN':'Indiana', 'IA':'Iowa', 'KS':'Kansas', 'KY':'Kentucky', 'LA':'Louisiana', 'ME':'Maine', 'MD':'Maryland', 'MA':'Massachusetts', 'MI':'Michigan', 'MN':'Minnesota', 'MS':'Mississippi', 'MO':'Missouri', 'MT':'Montana', 'NE':'Nebraska', 'NV':'Nevada', 'NH':'New Hampshire', 'NJ':'New Jersey', 'NM':'New Mexico', 'NY':'New York', 'NC':'North Carolina', 'ND':'North Dakota', 'OH':'Ohio', 'OK':'Oklahoma', 'OR':'Oregon', 'PA':'Pennsylvania', 'RI':'Rhode Island', 'SC':'South Carolina', 'SD':'South Dakota', 'TN':'Tennessee', 'TX':'Texas', 'UT':'Utah', 'VT':'Vermont', 'VA':'Virginia', 'WA':'Washington', 'WV':'West Virginia', 'WI':'Wisconsin', 'WY':'Wyoming'}
-# state_zip_paths = {}
-# for abb, state in states.items():
-#     abb = abb.lower()
-#     state = state.replace(' ', '_').lower()
-#     path = (f'https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/{abb}_{state}_zip_codes_geo.min.json')
-#     state_zip_paths.update({abb.upper(): path})
-#     # gdf = gpd.read_file(filename)
-#     # gdf
-# print(state_zip_paths['AL'])
-# illinois = requests.get(state_zip_paths['IL']).json()
-# print(illinois['60626'])
-# gdf = gpd.read_file('zcta5.geo.json')
-
-
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.types import JSON
-
-
 
 # create route that renders index.html template
 @app.route("/")
@@ -106,10 +76,17 @@ def census_request(search_term):
 def census(zipcode):
     return jsonify(census_request(zipcode))
 
+@app.route("/api/zipcodes/")
+def zipcode_list():
+    results = db.session.execute(f'SELECT DISTINCT(zipcode_5) FROM zipcode_donations ORDER BY zipcode_5 ASC')
+    zipcode_list = []
+    for result in results:
+        zipcode_list.append(result[0])
+    return jsonify({'zipcodes': zipcode_list})
 
 @app.route("/api/parties/")
 def parties():
-    results = db.session.execute(f'SELECT CAND_PARTY FROM zipcode_donations GROUP BY CAND_PARTY')
+    results = db.session.execute(f'SELECT DISTINCT(CAND_PARTY) FROM zipcode_donations')
     parties_list = []
     for result in results:
         parties_list.append(result[0])
@@ -186,23 +163,6 @@ def mysql_db():
 @app.route("/about_us")
 def about_us():
     return render_template("about_us.html")
-
-
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-# Route to render index.html template using data from Mongo
-# @app.route("/")
-# def render_home():
-#     # Return template and data
-#     return render_template("index.html")
-
-# @app.route("/presentation.html")
-# def render_presentation():
-#     # Return template and data
-#     return render_template("presentation.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
