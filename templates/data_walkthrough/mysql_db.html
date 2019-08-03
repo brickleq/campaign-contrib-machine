@@ -42,29 +42,29 @@
                         <nav class="navbar navbar-dark fixed-top navbar-expand-lg text-right" style="background-color: #1C416B;" >
                             
                             <!-- LANDING PAGE // LOGO -->
-                            <a class="navbar-brand" href="../../../index.html">Donor Report</a>
+                            <a class="navbar-brand" href="../../">Donor Report</a>
                             <div id="navbarSupportedContent">
                                 <ul class="nav navbar-nav text-right">
 
                                     <!-- LANDING PAGE // INDEX.HOME -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="../../../index.html">Home<span class="sr-only">(current)</span>
+                                        <a class="nav-link text-muted" href="../../">Home<span class="sr-only">(current)</span>
                                         </a>
                                     </li>
                                     
                                     <!-- REPORT GENERATED FROM FLASK QUERY -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="../zip_code.html">Zip Code Query</a>
+                                        <a class="nav-link text-muted" href="../zip_code">Zip Code Query</a>
                                     </li>
 
                                      <!-- Featured Queries -- Back-up if live data processes to slowly for the demo -->
                                      <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="../featured.html">Featured</a>
+                                        <a class="nav-link text-muted" href="../featured">Featured</a>
                                     </li>
 
                                     <!-- TEMPLATES TAB // PRESENTATION -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="../presentation.html">Presentation</a>
+                                        <a class="nav-link text-muted" href="../presentation">Presentation</a>
                                     </li>
                                     
                                     <!-- TEMPLATES DROPDOWN // STILL FIGURING OUT WHAT WE MIGHT NEED -->
@@ -74,17 +74,17 @@
                                                 Data Walkthrough
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <a class="dropdown-item text-muted" href="acs_notebook.html">ACS 5-Year</a><br>
-                                                <a class="dropdown-item text-muted" href="fec_notebook.html">FEC Donor Data</a><br>
-                                                <a class="dropdown-item active" href="mysql_db.html">MySQL Database</a><br>
-                                                <a class="dropdown-item text-muted" href="aws_db.html">AWS BigQuery</a><br>
+                                                <a class="dropdown-item text-muted" href="acs_notebook">ACS 5-Year</a><br>
+                                                <a class="dropdown-item text-muted" href="fec_notebook">FEC Donor Data</a><br>
+                                                <a class="dropdown-item " href="mysql_db">MySQL Database</a><br>
+                                                <a class="dropdown-item text-muted" href="aws_db">AWS BigQuery</a><br>
                                             </div>
                                             </li>
                                             
 
                                     <!-- TEMPLATES TAB // ABOUT US -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="../about_us.html">About Us</a>
+                                        <a class="nav-link text-muted" href="../about_us">About Us</a>
                                     </li>
                                 </ul>       
                             </div>
@@ -97,7 +97,75 @@
 <!-- LEAFLET Header -->
     
 <div class="main">
+       
+                <div class="container">
+                        <div class="col-lg-1 col-md-1 col-sm-1" ></div>
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 30px">
+                            <h1>A quick view of the SQL schema</h1>
+                            <h5>Schemas are stored locallly in MySQL/SQLite and on Amazon RDS</h5>
+                        </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1" ></div>
+                        <div class="col-lg-3 col-md-3 col-sm-3" >
+                            <div class="cell border-box-sizing code_cell rendered">
+                                <h3>Zipcode by Donations</h3>
+                                <code>
+                                   <p > CREATE TABLE `zipcode_donations` (</p>
+                                  
+                                    <p style="padding-left:15px">  `id` int(11) NOT NULL,</p>
+                                    <p style="padding-left:15px">  `zipcode_5` int(11) DEFAULT NULL,</p>
+                                    <p style="padding-left:15px">   `donations_sum` double DEFAULT NULL,</p>
+                                    <p style="padding-left:15px">   `donations_median` double DEFAULT NULL,</p>
+                                    <p style="padding-left:15px">   `donations_count` int(11) DEFAULT NULL,</p>
+                                    <p style="padding-left:15px">  `CAND_PARTY` text,</p>
+                                    <p style="padding-left:15px">   PRIMARY KEY (`id`)</p>
+                                    <p>    ) ENGINE=InnoDB DEFAULT CHARSET=latin1</p>
+                                </code>
             
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3" >
+                                <div class="cell border-box-sizing code_cell rendered">
+                                        <h3>Zipcode by GeoJSON</h3>
+                                    <code>
+                                       <p >  CREATE TABLE `zi_p5` (</p>
+                                      
+                                        <p style="padding-left:15px">  `zipcode_5` varchar(5) NOT NULL,</p>
+                                        <p style="padding-left:15px">  `zipcode_5` int(11) DEFAULT NULL,</p>
+                                        <p style="padding-left:15px">   `zipcode_geojson` mediumtext NOT NULL,</p>
+                                        <p style="padding-left:15px">   PRIMARY KEY (`zipcode_5`),</p>
+                                        <p style="padding-left:15px">    UNIQUE KEY `zipcode_5` (`zipcode_5`)</p>
+                                       
+                      
+                                        <p>    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</p>
+                                    </code>
+                
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4" >
+                                    <div class="cell border-box-sizing code_cell rendered">
+                                            <h3>Census Data by Zipcde</h3>
+                                        <code>
+                                           <p > CREATE TABLE `census_data` (</p>
+                                          
+                                            <p style="padding-left:15px">  `id` int(11) NOT NULL,</p>
+                                            <p style="padding-left:15px">  `zipcode_5` varchar(5) DEFAULT NULL,</p>
+                                            <p style="padding-left:15px">   `pop_total` int(11) DEFAULT NULL,</p>
+                                            <p style="padding-left:15px">   `unemployment_rate` double DEFAULT NULL,</p>
+                                            <p style="padding-left:15px">   `median_household_income` double DEFAULT NULL,</p>
+                                            <p style="padding-left:15px">   `healthcare_rate` double DEFAULT NULL,</p>
+                                            <p style="padding-left:15px">   `hs_graduation_rate` double DEFAULT NULL,</p>
+                                            <p style="padding-left:15px">   `assoc_degree_rate` double DEFAULT NULL,</p>
+                                            <p style="padding-left:15px">   `bachelor_degree_rate` double DEFAULT NULL,</p>
+                                            <p style="padding-left:15px">   `healthcare_rate` double DEFAULT NULL,</p>
+                                            <p style="padding-left:15px">   PRIMARY KEY (`id`)</p>
+                                            <p>    ) ENGINE=InnoDB DEFAULT CHARSET=latin1</p>
+                                        </code>
+                    
+                                    </div>
+                                </div>
+            
+                                <div class="col-lg-2 col-md-2 col-sm-2" ></div>
+                            </div>
 
 
 </div>  
