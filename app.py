@@ -52,7 +52,6 @@ def donations(search_term):
             })
     return jsonify({"type": "FeatureCollection", "features": features, "maximums": maximums})
 
-
 def census_request(search_term):
     results = db.session.execute(f'SELECT * FROM census_data WHERE zipcode_5 = "{search_term}"')
     census_data = []
@@ -71,10 +70,9 @@ def census_request(search_term):
             })
     return census_data
 
-
 @app.route("/api/census/<zipcode>")
 def census(zipcode):
-    return jsonify(census_request(zipcode))    # hthl
+    return jsonify(census_request(zipcode))
 
 @app.route("/api/zipcodes/")
 def zipcode_list():

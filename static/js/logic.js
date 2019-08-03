@@ -123,9 +123,6 @@ function init() {
   generateMap('TOTAL', 'donations_sum');
 };
 
-
-
-
 function optionChanged(party) {
   // Fetch new data each time a new sample is selected
   // buildMap(party);
