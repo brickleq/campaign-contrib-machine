@@ -37,9 +37,9 @@ function chooseColor(indicator, maximum) {
   return 'hsl(' + H_value + ', 100%, 50%)';
 }
 
-function chooseOpacity(indicator, maximum) {
-  var H_value = (indicator / maximum);
-  return H_value;
+// from https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function addGeoJson(data, map_variant, layer){
@@ -73,10 +73,10 @@ function addGeoJson(data, map_variant, layer){
         }
       });
       // Giving each feature a pop-up with information pertinent to it
-      layer.bindPopup("<h5><a target='_blank' href='/zipcode/" + feature.properties.zipcode + "'>" + feature.properties.zipcode + "</a></h5>" + 
-      "<hr> <strong>Total Donations:</strong> $" + feature.properties.donations_sum +
-      "<br> <strong>Median Donation:</strong> $" + feature.properties.donations_median +
-      "<br> <strong>Total Donors:</strong> " + feature.properties.donations_count);
+      layer.bindPopup("<strong><a target='_blank' href='/zipcode/" + feature.properties.zipcode + "'>" + feature.properties.zipcode + "</a></strong>" + 
+      "<br><br> <strong>Total Donations:</strong> $" + numberWithCommas(feature.properties.donations_sum) +
+      "<br> <strong>Median Donation:</strong> $" + numberWithCommas(feature.properties.donations_median) +
+      "<br> <strong>Total Donors:</strong> " + numberWithCommas(feature.properties.donations_count));
     }
   }).addTo(layer);
 };
