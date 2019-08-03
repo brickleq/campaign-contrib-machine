@@ -1,8 +1,25 @@
+// Create a starting layer for donations data
+var layers = {
+  donations_sumLayer: new L.LayerGroup(),
+  donations_medianLayer: new L.LayerGroup(),
+  donations_countLayer: new L.LayerGroup()
+};
+
 // Creating map object
 var map = L.map("map", {
   center: [40.1629, -89.1896],
-  zoom: 6
+  zoom: 6,
+  layers: [layers.donations_sumLayer]
 });
+
+var baseMaps = {
+  "Total Donations": layers.donations_sumLayer,
+  'Median Donation': layers.donations_medianLayer,
+  'Total Donors': layers.donations_countLayer
+};
+
+// Create a control for our layers, add our overlay layers to it
+L.control.layers(baseMaps, null).addTo(map);
 
 // Adding tile layer
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
@@ -12,9 +29,11 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: "pk.eyJ1Ijoic3Jtb250ZWlybyIsImEiOiJjandyMTJzNjgwMDgyNDNwZDUwNWpkN2NoIn0.rggDqMijR64cH-l9E6JVag"
 }).addTo(map);
 
+
+
 // Function that will determine the color of a neighborhood based on the borough it belongs to
 function chooseColor(indicator, maximum) {
-  var H_value = (1 - (indicator / maximum))*100;
+  var H_value = (indicator / maximum)*180;
   return 'hsl(' + H_value + ', 100%, 50%)';
 }
 
@@ -23,52 +42,59 @@ function chooseOpacity(indicator, maximum) {
   return H_value;
 }
 
+function addGeoJson(data, map_variant, layer){
+  var maximum = data.maximums[map_variant]
+  L.geoJson(data, {
+    // Style each feature (in this case a neighborhood)
+    style: function(feature) {
+      return {
+        color: chooseColor(feature.properties[map_variant], maximum),
+        fillOpacity: 0.5,
+        weight: 1
+      };
+    },
+    // Called on each feature
+    onEachFeature: function(feature, layer) {
+      // Set mouse events to change map styling
+      layer.on({
+        // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to full so that it stands out
+        mouseover: function(event) {
+          layer = event.target;
+          layer.setStyle({
+            fillOpacity: 0.9
+          });
+        },
+        // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to its original value
+        mouseout: function(event) {
+          layer = event.target;
+          layer.setStyle({
+            fillOpacity: 0.5
+          });
+        }
+      });
+      // Giving each feature a pop-up with information pertinent to it
+      layer.bindPopup("<h5><a href='/zipcode/" + feature.properties.zipcode + "'>" + feature.properties.zipcode + "</a></h5>" + 
+      "<hr> <strong>Total Donations:</strong> $" + feature.properties.donations_sum +
+      "<br> <strong>Median Donation:</strong> $" + feature.properties.donations_median +
+      "<br> <strong>Total Donors:</strong> " + feature.properties.donations_count);
+    }
+  }).addTo(layer);
+};
+
 function generateMap (party, map_variant) {
-  // Grabbing our GeoJSON data..
+  // Grabbing our GeoJSON data.
   d3.json("/api/donations/" + party, function(data) {
     // Creating a geoJSON layer with the retrieved data
-    var maximum = data.maximums[map_variant]
-    L.geoJson(data, {
-      // Style each feature (in this case a neighborhood)
-      style: function(feature) {
-        if (maximum < feature.properties[map_variant]){
-        }
-        return {
-          color: 'red',
-          fillOpacity: chooseOpacity(feature.properties[map_variant], maximum),
-          weight: 1
-        };
-      },
-      // Called on each feature
-      onEachFeature: function(feature, layer) {
-        // Set mouse events to change map styling
-        layer.on({
-          // When a user's mouse touches a map feature, the mouseover event calls this function, that feature's opacity changes to full so that it stands out
-          mouseover: function(event) {
-            layer = event.target;
-            layer.setStyle({
-              fillOpacity: 1
-            });
-          },
-          // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to its original value
-          mouseout: function(event) {
-            layer = event.target;
-            layer.setStyle({
-              fillOpacity: chooseOpacity(feature.properties[map_variant], maximum)
-            });
-          }
-        });
-        // Giving each feature a pop-up with information pertinent to it
-        layer.bindPopup("<strong>Zipcode</strong> " + feature.properties.zipcode + "<hr> <strong>" + map_variant + ":</strong> $" + feature.properties[map_variant]);
-
-      }
-    }).addTo(map);
+    layers.donations_sumLayer.clearLayers();
+    addGeoJson(data, 'donations_sum', layers.donations_sumLayer);
+    layers.donations_medianLayer.clearLayers();
+    addGeoJson(data, 'donations_median', layers.donations_medianLayer);
+    layers.donations_countLayer.clearLayers();
+    addGeoJson(data, 'donations_count', layers.donations_countLayer);
+    console.log('map updated');
   }); 
 };
 
-function buildDonationReport(party) { 
-
-};
       
  // PARTY SELECTOR 
 
@@ -106,7 +132,6 @@ function init() {
       });
   });
   d3.json('/api/zipcodes/', function(features) {
-    console.log(features.zipcodes);     
     d3.select("#selectZipcode")
       .selectAll("option")
       .data(features.zipcodes)
@@ -120,52 +145,16 @@ function init() {
       });
   
   });
-  generateMap('TOTAL', 'donations_sum');
+  generateMap('', 'donations_sum');
 };
 
 function optionChanged(party) {
   // Fetch new data each time a new sample is selected
   // buildMap(party);
-  generateMap(party);
+  console.log('optionChanged');
   console.log(party);
+  generateMap(party, 'donations_sum');
 }
-
-var submit = d3.select("#submit");
-
-submit.on("click", function() {
-
-  // Prevent the page from refreshing
-  d3.event.preventDefault();
-
-  // Select the input element and get the raw HTML node
-  var inputElementZipcode = d3.select("#selectZipcode");
-  var inputElementParty = d3.select("#selectParty");
-  // var inputElementState = d3.select("#selectState");
-
-  var zipcodeQuery = inputElementZipcode.property("value");
-  var party = inputElementParty.property("value");
-  // var searchState = inputElementState.property("value");
-
-  console.log(zipcodeQuery);
-  console.log(party);
-
-  var url = '/zipcode/' + zipcodeQuery;
-
-  d3.json(url).then(function(zip) {
-    console.log(zip);
-    // var coordinates = zip_response.coordinates;
-    // url = '/pets/' + searchTerm;
-    // d3.json(url).then(function(pet_response) {
-    //   console.log(pet_response);
-    //   createMarkers(pet_response, coordinates);
-      
-    // });
-  });
-  // mapElement.style('display', 'block');
-  // frontElement.style('display', 'none');
-
-  // var url = '/locations/' + zipcode;
-});
 
 // Initialize the dashboard
 init();
