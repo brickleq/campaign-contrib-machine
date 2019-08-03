@@ -122,9 +122,10 @@
   
                       <!-- The div where we will inject our map -->
                       <div id="map"></div>
-  
+                      <div id="zipcode" hidden>{{ data.zipcode }}</div>
+
                       <!-- Our JS -->
-                      <script type="text/javascript" src="../static/js/logic.js"></script>
+                      <script type="text/javascript" src="../static/js/query.js"></script>
   
                     </div>
             
@@ -143,7 +144,7 @@
                     <div class="col-lg-12 col-md-4 col-sm-4 ">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Key Demographics: {{ data.zipcode }} </h3>               <!-- LANDING : Zipcode -->
+                                <h3 class="panel-title">Key Demographics for {{ data.zipcode }} </h3>               <!-- LANDING : Zipcode -->
                             </div>
                             <div>
                                 <table style="padding:10px">
@@ -153,19 +154,19 @@
                                     </tr>
                                     <tr style="padding:10px">
                                         <td style="padding:10px">Population: {{ data.pop_total }}</td>                                <!-- LANDING : Population --> 
-                                        <td style="padding:10px">High School: {{ data.hs_graduation_rate }}</td>                      <!-- LANDING : hs_graduation_rate -->
+                                        <td style="padding:10px">High School: {{ data.hs_graduation_rate }}%</td>                      <!-- LANDING : hs_graduation_rate -->
                                     </tr>
                                     <tr style="padding:10px">
-                                        <td style="padding:10px">Median Household Income: {{ data.median_household_income }}</td>     <!-- LANDING : Median Household -->
-                                        <td style="padding:10px">Associate's: {{ data.assoc_degree_rate }}</td>                       <!-- LANDING : Associates -->
+                                        <td style="padding:10px">Median Household Income: ${{ data.median_household_income }}</td>     <!-- LANDING : Median Household -->
+                                        <td style="padding:10px">Associate's: {{ data.assoc_degree_rate }}%</td>                       <!-- LANDING : Associates -->
                                     </tr>
                                     <tr style="padding:10px">
-                                        <td style="padding:10px">Unemployment Rate: {{ data.unemployment_rate }}</td>                 <!-- LANDING : Unemployment --> 
-                                        <td style="padding:10px">Bachelor's: {{ data.bachelor_degree_rate }}</td>                     <!-- LANDING : Bachelors --> 
+                                        <td style="padding:10px">Unemployment Rate: {{ data.unemployment_rate }}%</td>                 <!-- LANDING : Unemployment --> 
+                                        <td style="padding:10px">Bachelor's: {{ data.bachelor_degree_rate }}%</td>                     <!-- LANDING : Bachelors --> 
                                     </tr>
                                     <tr style="padding:10px">
-                                        <td style="padding:10px">Has Health Insurace {{ data.healthcare_rate }}</td>                  <!-- LANDING : Healthcare --> 
-                                        <td style="padding:10px">Graduate: {{ data.grad_degree_rate }}</td>                           <!-- LANDING : Graduate Degree --> 
+                                        <td style="padding:10px">Has Health Insurace: {{ data.healthcare_rate }}%</td>                  <!-- LANDING : Healthcare --> 
+                                        <td style="padding:10px">Graduate: {{ data.grad_degree_rate }}%</td>                           <!-- LANDING : Graduate Degree --> 
                                     </tr>
                                 </table>
                             </div>

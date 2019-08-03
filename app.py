@@ -61,7 +61,7 @@ def census_request(search_term):
             "zipcode": result[1],  
             "pop_total": result[2],
             "unemployment_rate": round(result[3] * 100, 1),
-            "median_household_income": result[4],
+            "median_household_income": round(result[4]),
             "healthcare_rate": round(result[5] * 100, 1),
             "hs_graduation_rate": round(result[6] * 100, 1),
             "assoc_degree_rate": round(result[7] * 100, 1),
@@ -82,6 +82,13 @@ def zipcode_list():
         zipcode_list.append(result[0])
     return jsonify({'zipcodes': zipcode_list})
 
+
+@app.route("/api/zipcode_geo/<zipcode>")
+def zipcode_geo(zipcode):
+    result = db.session.execute(f'SELECT zipcode_geojson FROM zi_p5 WHERE zipcode_5="{zipcode}"').first()
+    geometry = json.loads(result[0])
+    return jsonify({"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": geometry}]})
+
 @app.route("/api/parties/")
 def parties():
     results = db.session.execute(f'SELECT DISTINCT(CAND_PARTY) FROM zipcode_donations')
@@ -91,7 +98,6 @@ def parties():
     return jsonify({'parties': parties_list})
 
 @app.route("/zipcode/<zipcode>")
-
 def zipcode_profile(zipcode):
     data = census_request(zipcode)
     return render_template("zip_code.html", data=data[0])

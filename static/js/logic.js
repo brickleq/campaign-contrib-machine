@@ -61,19 +61,19 @@ function addGeoJson(data, map_variant, layer){
         mouseover: function(event) {
           layer = event.target;
           layer.setStyle({
-            fillOpacity: 0.9
+            fillOpacity: 0.8
           });
         },
         // When the cursor no longer hovers over a map feature - when the mouseout event occurs - the feature's opacity reverts back to its original value
         mouseout: function(event) {
           layer = event.target;
           layer.setStyle({
-            fillOpacity: 0.5
+            fillOpacity: 0.3
           });
         }
       });
       // Giving each feature a pop-up with information pertinent to it
-      layer.bindPopup("<h5><a href='/zipcode/" + feature.properties.zipcode + "'>" + feature.properties.zipcode + "</a></h5>" + 
+      layer.bindPopup("<h5><a target='_blank' href='/zipcode/" + feature.properties.zipcode + "'>" + feature.properties.zipcode + "</a></h5>" + 
       "<hr> <strong>Total Donations:</strong> $" + feature.properties.donations_sum +
       "<br> <strong>Median Donation:</strong> $" + feature.properties.donations_median +
       "<br> <strong>Total Donors:</strong> " + feature.properties.donations_count);
