@@ -138,11 +138,11 @@ def database():
 def flask_app():
     return render_template("/presentation/flask_app.html")
 
-@app.route("/leaflet.html")
+@app.route("/leaflet")
 def leaflet():
     return render_template("/presentation/leaflet.html")
 
-@app.route("/conclusion.html")
+@app.route("/conclusion")
 def conclusion():
     return render_template("/presentation/conclusion.html")  
 
