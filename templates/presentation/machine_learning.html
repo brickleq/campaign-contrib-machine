@@ -99,29 +99,63 @@
 
 <!-- LEAFLET Header -->
     
-<div>
+div>
         <div class="row" >
             <div class="container-fluid">
                 <div class="col-lg-2 col-md-4 col-sm-4" ></div>
-            <div class="col-lg-8 col-md-4 col-sm-4" style="padding-top:8%;padding-bottom:150px" >
-                    <h1><b>As an Angel Investor:</b></h1>
-                <div class="col-lg-7 col-md-7 col-sm-7">
-                    <h3 style="padding-top:30px;padding-bottom:40px">
-                        <ul>
-                            <li>Time series [2013 - 2018]</li><br>
-                            <li>Congressional District and Zip Code</li><br>
-                            <li>More Donation Metrics [in/out flows]</li>
-                        </ul>
-                </div>
-                <div class="col-lg-5 col-md-5 col-sm-5">
-                        <img id="bigpic" src="../../static/images/amazon_rds.png" />
-                </div>
-                </h3>
+            <div class="col-lg-8 col-md-4 col-sm-4" style="padding-top:3%;padding-bottom:15px" >
+                    <h1><b>Machine Learning Outcomes</b></h1>
+                    <h5 style="padding-top:10px"><b>Model:</b> A deep learning, Sequential, model was trained on contribution data to predict future donors</h5>
+                    <h5><b>Challenges:</b> Time Series (particularly changing district boundaries), Time (had 220 ACS variable to test)
+
             </div>
             <div class="col-lg-2 col-md-4 col-sm-4" ></div>
         </div>
         </div>
     </div>  
+
+    <div>
+            <div class="row" >
+                <div class="container-fluid">
+                    <div class="col-lg-2 col-md-4 col-sm-4" ></div>
+                <div class="col-lg-8 col-md-4 col-sm-4" >
+
+                        <div class="cell border-box-sizing code_cell rendered">
+                                <div class="input">
+                                <div class="prompt input_prompt">In&nbsp;[107]:</div>
+                                <div class="inner_cell">
+                                    <div class="input_area">
+                                <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Evaluate the model using the test data</span>
+                                <span class="n">model_loss</span><span class="p">,</span> <span class="n">model_accuracy</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                                <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Loss: </span><span class="si">{model_loss}</span><span class="s2">, Accuracy: </span><span class="si">{model_accuracy}</span><span class="s2">&quot;</span><span class="p">)</span>
+                                </pre></div>
+                                
+                                    </div>
+                                </div>
+                                </div>
+                                
+                                <div class="output_wrapper">
+                                <div class="output">
+                                
+                                
+                                <div class="output_area">
+                                
+                                    <div class="prompt"></div>
+                                
+                                
+                                <div class="output_subarea output_stream output_stdout output_text">
+                                <pre> - 0s - loss: 0.7325 - acc: 0.6843
+                                Loss: 0.7324765044215742, Accuracy: 0.6842955350875854
+                                </pre>
+                                </div>
+                                </div>
+                                
+                                </div>
+                                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4" ></div>
+            </div>
+            </div>
+        </div> 
 
 </body>
 

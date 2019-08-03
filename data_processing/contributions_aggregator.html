@@ -1,0 +1,623 @@
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Illinois Exclusive</span>
+<span class="n">contributions</span> <span class="o">=</span> <span class="n">contributions</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">contributions</span><span class="p">[</span><span class="s1">&#39;ZIP_CODE&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">600000000</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">contributions</span><span class="p">[</span><span class="s1">&#39;ZIP_CODE&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">630000000</span><span class="p">)]</span>
+
+<span class="n">contributions</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CMTE_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;ZIP_CODE&#39;</span><span class="p">,</span><span class="s1">&#39;TRANSACTION_AMT&#39;</span><span class="p">,</span><span class="s1">&#39;SUB_ID&#39;</span><span class="p">,</span><span class="s1">&#39;zipcode_5&#39;</span><span class="p">],</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">contributions</span> <span class="o">=</span> <span class="n">contributions</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">contributions</span><span class="p">[</span><span class="s1">&#39;TRANSACTION_AMT&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">candidate_committee</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;candidate_committee.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
+<span class="n">candidate_committee</span> <span class="o">=</span> <span class="n">candidate_committee</span><span class="p">[[</span><span class="s1">&#39;CAND_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;CMTE_ID&#39;</span><span class="p">]]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">contributions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;individual_contributions.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+                            <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CMTE_ID&#39;</span><span class="p">,</span>
+                                  <span class="s1">&#39;TRANSACTION_PGI&#39;</span><span class="p">,</span>
+                                  <span class="s1">&#39;ZIP_CODE&#39;</span><span class="p">,</span>
+                                  <span class="s1">&#39;TRANSACTION_DT&#39;</span><span class="p">,</span>
+                                  <span class="s1">&#39;TRANSACTION_AMT&#39;</span><span class="p">,</span>
+                                  <span class="s1">&#39;SUB_ID&#39;</span><span class="p">],</span>
+                            <span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;CMTE_ID&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
+                                   <span class="s2">&quot;TRANSACTION_PGI&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                                   <span class="s2">&quot;ZIP_CODE&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                                  <span class="s1">&#39;TRANSACTION_DT&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                                   <span class="s2">&quot;TRANSACTION_AMT&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> 
+                                   <span class="s2">&quot;SUB_ID&quot;</span><span class="p">:</span> <span class="nb">str</span>
+                                  <span class="p">}</span>
+                           <span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">contributions</span><span class="p">[</span><span class="s1">&#39;zipcode_5&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">contributions</span><span class="p">[</span><span class="s1">&#39;ZIP_CODE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">contributions</span><span class="p">[</span><span class="s1">&#39;ZIP_CODE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">contributions</span><span class="p">[</span><span class="s1">&#39;ZIP_CODE&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">contributions</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CMTE_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;ZIP_CODE&#39;</span><span class="p">,</span><span class="s1">&#39;TRANSACTION_AMT&#39;</span><span class="p">,</span><span class="s1">&#39;SUB_ID&#39;</span><span class="p">,</span><span class="s1">&#39;zipcode_5&#39;</span><span class="p">],</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">contributions</span> <span class="o">=</span> <span class="n">contributions</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">contributions</span><span class="p">[</span><span class="s1">&#39;TRANSACTION_AMT&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Illinois Exclusive</span>
+
+<span class="n">contributions</span> <span class="o">=</span> <span class="n">contributions</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">contributions</span><span class="p">[</span><span class="s1">&#39;ZIP_CODE&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">600000000</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">contributions</span><span class="p">[</span><span class="s1">&#39;ZIP_CODE&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">630000000</span><span class="p">)]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">contributions</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">candidate_committee</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;candidate_committee.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
+<span class="n">candidate_committee</span> <span class="o">=</span> <span class="n">candidate_committee</span><span class="p">[[</span><span class="s1">&#39;CAND_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;CMTE_ID&#39;</span><span class="p">]]</span>
+<span class="n">candidate_committee</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">candidates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;candidates.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;CAND_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;CAND_PARTY&#39;</span><span class="p">],</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span>
+<span class="c1">#candidates = candidates[[&#39;CAND_ID&#39;, &#39;CMTE_ID&#39;]]</span>
+<span class="n">candidates</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">contributions</span> <span class="o">=</span> <span class="n">contributions</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">candidate_committee</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">candidates</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">))</span>
+<span class="n">contributions</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">contributions</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;contributions.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grouped</span> <span class="o">=</span> <span class="n">contributions</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;zipcode_5&#39;</span><span class="p">,</span> <span class="s1">&#39;CAND_PARTY&#39;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">party_summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">party_summary_df</span><span class="p">[</span><span class="s1">&#39;donations_sum&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s1">&#39;TRANSACTION_AMT&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">party_summary_df</span><span class="p">[</span><span class="s1">&#39;donations_median&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s1">&#39;TRANSACTION_AMT&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="n">party_summary_df</span><span class="p">[</span><span class="s1">&#39;donations_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="p">[</span><span class="s1">&#39;SUB_ID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">party_summary_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">party_summary_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">zip_summary_df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">final_df</span> <span class="o">=</span> <span class="n">zip_summary_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">party_summary_df</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">final_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;zipcode_donations_final.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index_label</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">census_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;census_data_2016.csv&#39;</span><span class="p">,</span>
+                       <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GEO.id&#39;</span><span class="p">,</span> <span class="s1">&#39;HD01_VD01&#39;</span><span class="p">,</span> <span class="s1">&#39;HD01_VD02&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;HC01_VC06&#39;</span><span class="p">,</span> <span class="s1">&#39;HC01_VC07&#39;</span><span class="p">,</span><span class="s1">&#39;HC01_VC85&#39;</span><span class="p">,</span> <span class="s1">&#39;HC01_VC131&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;HC01_EST_VC08&#39;</span><span class="p">,</span> <span class="s1">&#39;HC01_EST_VC11&#39;</span><span class="p">,</span> <span class="s1">&#39;HC01_EST_VC13&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;HC01_EST_VC14&#39;</span><span class="p">,</span> <span class="s1">&#39;HC01_EST_VC15&#39;</span><span class="p">])</span>
+<span class="n">header</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;zipcode&#39;</span><span class="p">,</span> <span class="s1">&#39;pop_total&#39;</span><span class="p">,</span> <span class="s1">&#39;pop_white&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;pop_employed&#39;</span><span class="p">,</span><span class="s1">&#39;pop_unemployed&#39;</span><span class="p">,</span> <span class="s1">&#39;median_household_income&#39;</span><span class="p">,</span> <span class="s1">&#39;pop_with_healthcare&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;edu_25+_total&#39;</span><span class="p">,</span> <span class="s1">&#39;25+_HS&#39;</span><span class="p">,</span> <span class="s1">&#39;edu_25+_assoc&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;edu_25+_bachelor&#39;</span><span class="p">,</span> <span class="s1">&#39;edu_25+_grad&#39;</span><span class="p">]</span>
+<span class="n">census_df</span> <span class="o">=</span> <span class="n">census_df</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">census_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">header</span>
+<span class="n">census_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="c1">#https://www.census.gov/glossary/#term_Employed</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/stephenmonteiro/anaconda3/envs/PythonDataScience/lib/python3.6/site-packages/IPython/core/interactiveshell.py:3020: DtypeWarning: Columns (3,4,16,17,108,155,158,160,161,162) have mixed types. Specify dtype option on import or set low_memory=False.
+  interactivity=interactivity, compiler=compiler, result=result)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[3]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>zipcode</th>
+      <th>pop_total</th>
+      <th>pop_white</th>
+      <th>pop_employed</th>
+      <th>pop_unemployed</th>
+      <th>median_household_income</th>
+      <th>pop_with_healthcare</th>
+      <th>edu_25+_total</th>
+      <th>25+_HS</th>
+      <th>edu_25+_assoc</th>
+      <th>edu_25+_bachelor</th>
+      <th>edu_25+_grad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>8600000US00601</td>
+      <td>17800</td>
+      <td>14436</td>
+      <td>3904</td>
+      <td>2152</td>
+      <td>11507</td>
+      <td>16503</td>
+      <td>11887</td>
+      <td>2985</td>
+      <td>604</td>
+      <td>1845</td>
+      <td>376</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>8600000US00602</td>
+      <td>39716</td>
+      <td>22941</td>
+      <td>11560</td>
+      <td>3116</td>
+      <td>15511</td>
+      <td>37497</td>
+      <td>27546</td>
+      <td>6076</td>
+      <td>3689</td>
+      <td>3840</td>
+      <td>1736</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8600000US00603</td>
+      <td>51565</td>
+      <td>35176</td>
+      <td>12722</td>
+      <td>3768</td>
+      <td>16681</td>
+      <td>47081</td>
+      <td>35589</td>
+      <td>9590</td>
+      <td>2890</td>
+      <td>5809</td>
+      <td>2239</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>8600000US00606</td>
+      <td>6320</td>
+      <td>3739</td>
+      <td>1467</td>
+      <td>205</td>
+      <td>11648</td>
+      <td>6167</td>
+      <td>4381</td>
+      <td>1553</td>
+      <td>206</td>
+      <td>349</td>
+      <td>77</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>8600000US00610</td>
+      <td>27976</td>
+      <td>16259</td>
+      <td>8327</td>
+      <td>1587</td>
+      <td>17751</td>
+      <td>27106</td>
+      <td>19237</td>
+      <td>6329</td>
+      <td>1618</td>
+      <td>2368</td>
+      <td>626</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">census_df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">census_df</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+<span class="n">census_df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>zipcode                     object
+pop_total                    int64
+pop_white                    int64
+pop_employed                 int64
+pop_unemployed               int64
+median_household_income    float64
+pop_with_healthcare          int64
+edu_25+_total                int64
+25+_HS                       int64
+edu_25+_assoc                int64
+edu_25+_bachelor             int64
+edu_25+_grad                 int64
+dtype: object</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">census_summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">census_summary_df</span><span class="p">[</span><span class="s1">&#39;zipcode_5&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;zipcode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span>
+<span class="n">census_summary_df</span><span class="p">[</span><span class="s1">&#39;pop_total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;pop_total&#39;</span><span class="p">]</span>
+<span class="n">census_summary_df</span><span class="p">[</span><span class="s1">&#39;unemployment_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;pop_unemployed&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;pop_unemployed&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;pop_employed&#39;</span><span class="p">])</span>
+<span class="n">census_summary_df</span><span class="p">[</span><span class="s1">&#39;median_household_income&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;median_household_income&#39;</span><span class="p">]</span>
+<span class="n">census_summary_df</span><span class="p">[</span><span class="s1">&#39;healthcare_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;pop_with_healthcare&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;pop_total&#39;</span><span class="p">]</span>
+<span class="n">census_summary_df</span><span class="p">[</span><span class="s1">&#39;hs_graduation_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;25+_HS&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;edu_25+_total&#39;</span><span class="p">]</span>
+<span class="n">census_summary_df</span><span class="p">[</span><span class="s1">&#39;assoc_degree_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;edu_25+_assoc&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;edu_25+_total&#39;</span><span class="p">]</span>
+<span class="n">census_summary_df</span><span class="p">[</span><span class="s1">&#39;bachelor_degree_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;edu_25+_bachelor&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;edu_25+_total&#39;</span><span class="p">]</span>
+<span class="n">census_summary_df</span><span class="p">[</span><span class="s1">&#39;grad_degree_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;edu_25+_grad&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">census_df</span><span class="p">[</span><span class="s1">&#39;edu_25+_total&#39;</span><span class="p">]</span>
+<span class="n">census_summary_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[5]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>zipcode_5</th>
+      <th>pop_total</th>
+      <th>unemployment_rate</th>
+      <th>median_household_income</th>
+      <th>healthcare_rate</th>
+      <th>hs_graduation_rate</th>
+      <th>assoc_degree_rate</th>
+      <th>bachelor_degree_rate</th>
+      <th>grad_degree_rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>00601</td>
+      <td>17800</td>
+      <td>0.355350</td>
+      <td>11507.0</td>
+      <td>0.927135</td>
+      <td>0.251115</td>
+      <td>0.050812</td>
+      <td>0.155212</td>
+      <td>0.031631</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>00602</td>
+      <td>39716</td>
+      <td>0.212319</td>
+      <td>15511.0</td>
+      <td>0.944128</td>
+      <td>0.220576</td>
+      <td>0.133921</td>
+      <td>0.139403</td>
+      <td>0.063022</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>00603</td>
+      <td>51565</td>
+      <td>0.228502</td>
+      <td>16681.0</td>
+      <td>0.913042</td>
+      <td>0.269465</td>
+      <td>0.081205</td>
+      <td>0.163225</td>
+      <td>0.062913</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>00606</td>
+      <td>6320</td>
+      <td>0.122608</td>
+      <td>11648.0</td>
+      <td>0.975791</td>
+      <td>0.354485</td>
+      <td>0.047021</td>
+      <td>0.079662</td>
+      <td>0.017576</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>00610</td>
+      <td>27976</td>
+      <td>0.160077</td>
+      <td>17751.0</td>
+      <td>0.968902</td>
+      <td>0.329001</td>
+      <td>0.084109</td>
+      <td>0.123096</td>
+      <td>0.032541</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">census_summary_df</span><span class="o">.</span><span class="n">dtypes</span>
+<span class="c1"># Illinois Exclusive</span>
+
+<span class="n">census_summary_df</span> <span class="o">=</span> <span class="n">census_summary_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">census_summary_df</span><span class="p">[</span><span class="s1">&#39;zipcode_5&#39;</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">60000</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">census_summary_df</span><span class="p">[</span><span class="s1">&#39;zipcode_5&#39;</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">63000</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">census_summary_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;census_data.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index_label</span><span class="o">=</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">census_summary_df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+ 
+
