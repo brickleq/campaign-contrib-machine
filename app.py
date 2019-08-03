@@ -91,77 +91,78 @@ def parties():
     return jsonify({'parties': parties_list})
 
 @app.route("/zipcode/<zipcode>")
+
 def zipcode_profile(zipcode):
     data = census_request(zipcode)
     return render_template("zip_code.html", data=data[0])
     
 @app.route("/featured")
 def featured():
-    return render_template("featured")
+    return render_template("featured.html")
 
 @app.route("/presentation")
 def presentation():
-    return render_template("presentation")
+    return render_template("presentation.html")
 
 @app.route("/presentation/goals")
 def goals():
-    return render_template("goals")
+    return render_template("goals.html")
     
 @app.route("/presentation/investors")
 def investors():
-    return render_template("investors")
+    return render_template("investors.html")
 
 @app.route("/presentation/structure")
 def structure():
-    return render_template("structure")
+    return render_template("structure.html")
 
 @app.route("/presentation/jupyter")
 def jupyter():
-    return render_template("jupyter")
+    return render_template("jupyter.html")
 
 @app.route("/presentation/machine_learning")
 def machine_learning():
-    return render_template("machine_learning")
+    return render_template("machine_learning.html")
 
 @app.route("/presentation/database")
 def database():
-    return render_template("database")
+    return render_template("database.html")
 
 @app.route("/presentation/flask_app")
 def flask_app():
-    return render_template("flask_app")
+    return render_template("flask_app.html")
 
-@app.route("/presentation/leaflet")
+@app.route("/presentation/leaflet.html")
 def leaflet():
-    return render_template("leaflet")
+    return render_template("leaflet.html")
 
-@app.route("/presentation/conclusion")
+@app.route("/presentation/conclusion.html")
 def conclusion():
-    return render_template("conclusion")  
+    return render_template("conclusion.html")  
 
 @app.route("/data_walkthrough")
 def data_walkthrough():
-    return render_template("data_walkthrough")
+    return render_template("data_walkthrough.html")
 
 @app.route("/data_walkthrough/acs_notebook")
 def acs_notebook():
-    return render_template("acs_notebook")
+    return render_template("acs_notebook.html")
 
 @app.route("/data_walkthrough/aws_db")
 def aws_db():
-    return render_template("aws_db")
+    return render_template("aws_db.html")
 
 @app.route("/data_walkthrough/fec_notebook")
 def fec_notebook():
-    return render_template("fec_notebook")
+    return render_template("fec_notebook.html")
 
 @app.route("/data_walkthrough/mysql_db")
 def mysql_db():
-    return render_template("mysql_db")
+    return render_template("mysql_db.html")
 
 @app.route("/about_us")
 def about_us():
-    return render_template("about_us")
+    return render_template("about_us.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

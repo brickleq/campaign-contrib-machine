@@ -126,8 +126,46 @@ function init() {
 function optionChanged(party) {
   // Fetch new data each time a new sample is selected
   // buildMap(party);
-  buildDonationReport(party);
+  generateMap(party);
+  console.log(party);
 }
+
+var submit = d3.select("#submit");
+
+submit.on("click", function() {
+
+  // Prevent the page from refreshing
+  d3.event.preventDefault();
+
+  // Select the input element and get the raw HTML node
+  var inputElementZipcode = d3.select("#selectZipcode");
+  var inputElementParty = d3.select("#selectParty");
+  // var inputElementState = d3.select("#selectState");
+
+  var zipcodeQuery = inputElementZipcode.property("value");
+  var party = inputElementParty.property("value");
+  // var searchState = inputElementState.property("value");
+
+  console.log(zipcodeQuery);
+  console.log(party);
+
+  var url = '/zipcode/' + zipcodeQuery;
+
+  d3.json(url).then(function(zip) {
+    console.log(zip);
+    // var coordinates = zip_response.coordinates;
+    // url = '/pets/' + searchTerm;
+    // d3.json(url).then(function(pet_response) {
+    //   console.log(pet_response);
+    //   createMarkers(pet_response, coordinates);
+      
+    // });
+  });
+  // mapElement.style('display', 'block');
+  // frontElement.style('display', 'none');
+
+  // var url = '/locations/' + zipcode;
+});
 
 // Initialize the dashboard
 init();
