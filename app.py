@@ -110,61 +110,61 @@ def featured():
 def presentation():
     return render_template("presentation.html")
 
-@app.route("/presentation/goals")
+@app.route("/goals")
 def goals():
-    return render_template("goals.html")
+    return render_template("/presentation/goals.html")
     
-@app.route("/presentation/investors")
+@app.route("/investors")
 def investors():
-    return render_template("investors.html")
+    return render_template("/presentation/investors.html")
 
-@app.route("/presentation/structure")
+@app.route("/structure")
 def structure():
-    return render_template("structure.html")
+    return render_template("/presentation/structure.html")
 
-@app.route("/presentation/jupyter")
+@app.route("/jupyter")
 def jupyter():
-    return render_template("jupyter.html")
+    return render_template("/presentation/jupyter.html")
 
-@app.route("/presentation/machine_learning")
+@app.route("/machine_learning")
 def machine_learning():
-    return render_template("machine_learning.html")
+    return render_template("/presentation/machine_learning.html")
 
-@app.route("/presentation/database")
+@app.route("/database")
 def database():
-    return render_template("database.html")
+    return render_template("/presentation/database.html")
 
-@app.route("/presentation/flask_app")
+@app.route("/flask_app")
 def flask_app():
-    return render_template("flask_app.html")
+    return render_template("/presentation/flask_app.html")
 
-@app.route("/presentation/leaflet.html")
+@app.route("/leaflet.html")
 def leaflet():
-    return render_template("leaflet.html")
+    return render_template("/presentation/leaflet.html")
 
-@app.route("/presentation/conclusion.html")
+@app.route("/conclusion.html")
 def conclusion():
-    return render_template("conclusion.html")  
+    return render_template("/presentation/conclusion.html")  
 
 @app.route("/data_walkthrough")
 def data_walkthrough():
     return render_template("data_walkthrough.html")
 
-@app.route("/data_walkthrough/acs_notebook")
+@app.route("/acs_notebook")
 def acs_notebook():
-    return render_template("acs_notebook.html")
+    return render_template("/data_walkthrough/acs_notebook.html")
 
-@app.route("/data_walkthrough/aws_db")
+@app.route("/aws_db")
 def aws_db():
-    return render_template("aws_db.html")
+    return render_template("/data_walkthrough/aws_db.html")
 
-@app.route("/data_walkthrough/fec_notebook")
+@app.route("/fec_notebook")
 def fec_notebook():
-    return render_template("fec_notebook.html")
+    return render_template("/data_walkthrough/fec_notebook.html")
 
-@app.route("/data_walkthrough/mysql_db")
+@app.route("/mysql_db")
 def mysql_db():
-    return render_template("mysql_db.html")
+    return render_template("/data_walkthrough/mysql_db.html")
 
 @app.route("/about_us")
 def about_us():
