@@ -59,9 +59,9 @@ def census_request(search_term):
         census_data.append({
             "id": result[0],
             "zipcode": result[1],  
-            "pop_total": result[2],
+            "pop_total": f'{result[2]:,}',
             "unemployment_rate": round(result[3] * 100, 1),
-            "median_household_income": round(result[4]),
+            "median_household_income": f'{round(result[4]):,}',
             "healthcare_rate": round(result[5] * 100, 1),
             "hs_graduation_rate": round(result[6] * 100, 1),
             "assoc_degree_rate": round(result[7] * 100, 1),
@@ -85,9 +85,22 @@ def zipcode_list():
 
 @app.route("/api/zipcode_geo/<zipcode>")
 def zipcode_geo(zipcode):
-    result = db.session.execute(f'SELECT zipcode_geojson FROM zi_p5 WHERE zipcode_5="{zipcode}"').first()
-    geometry = json.loads(result[0])
-    return jsonify({"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": geometry}]})
+    donation_results = db.session.execute(f'SELECT zd.zipcode_5, donations_sum, donations_median, donations_count, zipcode_geojson FROM zipcode_donations zd join zi_p5 on zi_p5.zipcode_5 = zd.zipcode_5 WHERE zd.zipcode_5="{zipcode}"')
+    features = []
+    for result in donation_results:
+        geometry = json.loads(result[4])
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "zipcode": result[0],
+                "donations_sum": float(result[1]),
+                "donations_median": float(result[2]),
+                "donations_count": float(result[3])
+            },
+            "geometry": geometry
+            })
+    return jsonify({"type": "FeatureCollection", "features": features})
+
 
 @app.route("/api/parties/")
 def parties():
