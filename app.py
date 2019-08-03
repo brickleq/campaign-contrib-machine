@@ -96,6 +96,7 @@ def parties():
 def zipcode_profile(zipcode):
     data = census_request(zipcode)
     return render_template("zip_code.html", data=data[0])
+    
 @app.route("/featured")
 def featured():
     return render_template("featured")
