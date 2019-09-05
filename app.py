@@ -5,21 +5,18 @@ from flask import (
     jsonify,
     request,
     redirect)
-from flask_cors import CORS # Development only--allow access to local and remote IP addresses
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.types import JSON
 import json
 
-# MySQL connection string
-from config import user, password, host, port, dbname
-connect_string = (f'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{dbname}?use_pure=True')
-
 app = Flask(__name__)
-CORS(app) # Development only--allow access to local and remote IP addresses
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#################################################
+# Database Setup
+#################################################
+
+connect_string = 'sqlite:///db/donations_db.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = connect_string
-
 db = SQLAlchemy(app)
 
 # create route that renders index.html template
@@ -102,7 +99,7 @@ def zipcode_list():
 
 @app.route("/api/zipcode_geo/<zipcode>")
 def zipcode_geo(zipcode):
-    donation_results = db.session.execute(f'SELECT zd.zipcode_5, donations_sum, donations_median, donations_count, zipcode_geojson FROM zipcode_donations zd join zi_p5 on zi_p5.zipcode_5 = zd.zipcode_5 WHERE zd.zipcode_5="{zipcode}"')
+    donation_results = db.session.execute(f'SELECT zd.zipcode_5, donations_sum, donations_median, donations_count, zipcode_geojson FROM zipcode_donations zd join zi_p5 on zi_p5.zipcode_5 = zd.zipcode_5 WHERE zd.zipcode_5="{zipcode}" and party="TOTAL"')
     features = []
     for result in donation_results:
         geometry = json.loads(result[4])
