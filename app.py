@@ -99,7 +99,7 @@ def zipcode_list():
 
 @app.route("/api/zipcode_geo/<zipcode>")
 def zipcode_geo(zipcode):
-    donation_results = db.session.execute(f'SELECT zd.zipcode_5, donations_sum, donations_median, donations_count, zipcode_geojson FROM zipcode_donations zd join zi_p5 on zi_p5.zipcode_5 = zd.zipcode_5 WHERE zd.zipcode_5="{zipcode}" and party="TOTAL"')
+    donation_results = db.session.execute(f'SELECT zd.zipcode_5, donations_sum, donations_median, donations_count, zipcode_geojson FROM zipcode_donations zd join zi_p5 on zi_p5.zipcode_5 = zd.zipcode_5 WHERE zd.zipcode_5="{zipcode}" and CAND_PARTY="TOTAL"')
     features = []
     for result in donation_results:
         geometry = json.loads(result[4])
