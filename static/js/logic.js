@@ -2,7 +2,11 @@
 var layers = {
   donations_sumLayer: new L.LayerGroup(),
   donations_medianLayer: new L.LayerGroup(),
-  donations_countLayer: new L.LayerGroup()
+  donations_countLayer: new L.LayerGroup(),
+  DEM_quartileLayer: new L.LayerGroup(),
+  DEM_differenceLayer : new L.LayerGroup(),
+  REP_quartileLayer: new L.LayerGroup(),
+  REP_differenceLayer : new L.LayerGroup()
 };
 
 // Creating map object
@@ -12,14 +16,6 @@ var map = L.map("map", {
   layers: [layers.donations_sumLayer]
 });
 
-var baseMaps = {
-  "Total Donations": layers.donations_sumLayer,
-  'Median Donation': layers.donations_medianLayer,
-  'Total Donors': layers.donations_countLayer
-};
-
-// Create a control for our layers, add our overlay layers to it
-L.control.layers(baseMaps, null).addTo(map);
 
 // Adding tile layer
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
@@ -33,7 +29,11 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 // Function that will determine the color of a neighborhood based on the borough it belongs to
 function chooseColor(indicator, maximum) {
-  var H_value = (indicator / maximum)*180;
+  if (maximum == 'quartile'){
+    maximum = 3;
+    indicator = 4 - indicator; 
+  }
+  var H_value = (indicator / maximum)*120;
   return 'hsl(' + H_value + ', 100%, 50%)';
 }
 
@@ -42,8 +42,29 @@ function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function addGeoJson(data, map_variant, layer){
-  var maximum = data.maximums[map_variant]
+function createPopup(feature, map_variant){
+  var popupText = "<strong><a target='_blank' href='/zipcode/" + feature.properties.zipcode + "'>" + feature.properties.zipcode + "</a></strong>" + 
+      "<br><br> <strong>Total Donations:</strong> $" + numberWithCommas(feature.properties.donations_sum) +
+      "<br> <strong>Median Donation:</strong> $" + numberWithCommas(feature.properties.donations_median) +
+      "<br> <strong>Total Donors:</strong> " + numberWithCommas(feature.properties.donations_count);
+  if (map_variant == 'actual_DEM_quartile') {
+    popupText = popupText + "<br> <strong>Actual Donation Quartile:</strong> " + feature.properties.actual_DEM_quartile
+  }
+  else if (map_variant == 'difference_DEM'){
+    popupText = popupText + "<br> <strong>Actual Donation Quartile:</strong> " + feature.properties.actual_DEM_quartile + 
+                            "<br> <strong>Predicted Donation Quartile:</strong> " + feature.properties.predicted_DEM_quartile
+  }
+  else if (map_variant == 'actual_REP_quartile'){
+    popupText = popupText + "<br> <strong>Actual Donation Quartile:</strong> " + feature.properties.actual_REP_quartile
+  }
+  else if (map_variant == 'difference_REP'){
+    popupText = popupText + "<br> <strong>Actual Donation Quartile:</strong> " + feature.properties.actual_REP_quartile + 
+                            "<br> <strong>Predicted Donation Quartile:</strong> " + feature.properties.predicted_REP_quartile
+  }
+  return popupText;
+}
+
+function addGeoJson(data, map_variant, maximum, layer){
   L.geoJson(data, {
     // Style each feature (in this case a neighborhood)
     style: function(feature) {
@@ -73,24 +94,60 @@ function addGeoJson(data, map_variant, layer){
         }
       });
       // Giving each feature a pop-up with information pertinent to it
-      layer.bindPopup("<strong><a target='_blank' href='/zipcode/" + feature.properties.zipcode + "'>" + feature.properties.zipcode + "</a></strong>" + 
-      "<br><br> <strong>Total Donations:</strong> $" + numberWithCommas(feature.properties.donations_sum) +
-      "<br> <strong>Median Donation:</strong> $" + numberWithCommas(feature.properties.donations_median) +
-      "<br> <strong>Total Donors:</strong> " + numberWithCommas(feature.properties.donations_count));
+      layer.bindPopup(createPopup(feature, map_variant));
     }
   }).addTo(layer);
 };
 
-function generateMap (party, map_variant) {
+function generateMap (party) {
   // Grabbing our GeoJSON data.
-  d3.json("/api/donations/" + party, function(data) {
+  d3.json("/api/donations/" + party, function(data) {      
     // Creating a geoJSON layer with the retrieved data
     layers.donations_sumLayer.clearLayers();
-    addGeoJson(data, 'donations_sum', layers.donations_sumLayer);
+    addGeoJson(data, 'donations_sum', data.maximums['donations_sum'], layers.donations_sumLayer);
     layers.donations_medianLayer.clearLayers();
-    addGeoJson(data, 'donations_median', layers.donations_medianLayer);
+    addGeoJson(data, 'donations_median', data.maximums['donations_median'], layers.donations_medianLayer);
     layers.donations_countLayer.clearLayers();
-    addGeoJson(data, 'donations_count', layers.donations_countLayer);
+    addGeoJson(data, 'donations_count', data.maximums['donations_count'], layers.donations_countLayer);
+    
+    if (party == 'DEM') {
+      var baseMaps = {
+        "Total Donations": layers.donations_sumLayer,
+        'Median Donation': layers.donations_medianLayer,
+        'Total Donors': layers.donations_countLayer,
+        'Donations Quartile' : layers.DEM_quartileLayer,
+        'Potential Priority Districts': layers.DEM_differenceLayer
+      };
+      layers.DEM_quartileLayer.clearLayers();
+      addGeoJson(data, 'actual_DEM_quartile', 'quartile', layers.DEM_quartileLayer);
+      layers.DEM_differenceLayer.clearLayers();
+      addGeoJson(data, 'difference_DEM', 6, layers.DEM_differenceLayer);
+      controller.removeFrom(map);
+      controller = L.control.layers(baseMaps, null).addTo(map);
+    }
+    else if (party == 'REP'){
+      var baseMaps = {
+        "Total Donations": layers.donations_sumLayer,
+        'Median Donation': layers.donations_medianLayer,
+        'Total Donors': layers.donations_countLayer,
+        'Donations Quartile (REP)' : layers.REP_quartileLayer,
+        'Potential Priority Districts (REP)': layers.REP_differenceLayer
+      };
+      layers.REP_quartileLayer.clearLayers();
+      addGeoJson(data, 'actual_DEM_quartile', 'quartile', layers.REP_quartileLayer);
+      layers.REP_differenceLayer.clearLayers();
+      addGeoJson(data, 'difference_REP', 6, layers.REP_differenceLayer);
+      controller.removeFrom(map);
+      controller = L.control.layers(baseMaps, null).addTo(map);
+    }
+    else {
+      var baseMaps = {
+        "Total Donations": layers.donations_sumLayer,
+        'Median Donation': layers.donations_medianLayer,
+        'Total Donors': layers.donations_countLayer
+      };
+      controller = L.control.layers(baseMaps, null).addTo(map);
+    }
     console.log('map updated');
   }); 
 };
@@ -105,7 +162,7 @@ function init() {
   d3.json('/api/parties/', function(data) {
     console.log(data.parties);     
     var partyArray = data.parties;
-    var stateArray = ["Illinois - Free Version"]
+    var stateArray = ["Illinois"]
 
     d3.select("#selectParty")
       .selectAll("option")
@@ -145,7 +202,7 @@ function init() {
       });
   
   });
-  generateMap('', 'donations_sum');
+  generateMap('TOTAL');
 };
 
 function optionChanged(party) {

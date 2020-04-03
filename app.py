@@ -5,21 +5,18 @@ from flask import (
     jsonify,
     request,
     redirect)
-from flask_cors import CORS # Development only--allow access to local and remote IP addresses
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.types import JSON
 import json
 
-# MySQL connection string
-from config import user, password, host, port, dbname
-connect_string = (f'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{dbname}?use_pure=True')
-
 app = Flask(__name__)
-CORS(app) # Development only--allow access to local and remote IP addresses
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#################################################
+# Database Setup
+#################################################
+
+connect_string = 'sqlite:///db/donations_db.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = connect_string
-
 db = SQLAlchemy(app)
 
 # create route that renders index.html template
@@ -30,7 +27,7 @@ def home():
 @app.route('/api/donations/', defaults={'search_term': 'TOTAL'})
 @app.route("/api/donations/<search_term>")
 def donations(search_term):
-    donation_results = db.session.execute(f'SELECT zd.zipcode_5, donations_sum, donations_median, donations_count, zipcode_geojson FROM zipcode_donations zd join zi_p5 on zi_p5.zipcode_5 = zd.zipcode_5 WHERE CAND_PARTY = "{search_term}"')
+    donation_results = db.session.execute(f'SELECT zd.zipcode_5, donations_sum, donations_median, donations_count, zipcode_geojson, sum_DEM_quartile, sum_DEM_predicted, sum_REP_quartile, sum_REP_predicted FROM zipcode_donations zd join zi_p5 on zi_p5.zipcode_5 = zd.zipcode_5 join zipcodes_quartiles zq on zq.zipcode_5 = zd.zipcode_5 WHERE CAND_PARTY = "{search_term}"')
     maximums_results = db.session.execute(f'SELECT max(donations_sum), max(donations_median), max(donations_count) FROM zipcode_donations WHERE CAND_PARTY = "{search_term}"').first()
     features = []
     maximums = {
@@ -46,33 +43,50 @@ def donations(search_term):
                 "zipcode": result[0],
                 "donations_sum": float(result[1]),
                 "donations_median": float(result[2]),
-                "donations_count": float(result[3])
+                "donations_count": float(result[3]),
+                "actual_DEM_quartile": int(result[5]),
+                "predicted_DEM_quartile": int(result[6]),
+                "actual_REP_quartile": int(result[7]),
+                "predicted_REP_quartile": int(result[8]),
+                "difference_DEM": 3 + int(result[5]) - int(result[6]),
+                "difference_REP": 3 + int(result[7]) - int(result[8])
             },
             "geometry": geometry
             })
     return jsonify({"type": "FeatureCollection", "features": features, "maximums": maximums})
 
 def census_request(search_term):
-    results = db.session.execute(f'SELECT * FROM census_data WHERE zipcode_5 = "{search_term}"')
-    census_data = []
-    for result in results:
-        census_data.append({
-            "id": result[0],
-            "zipcode": result[1],  
-            "pop_total": f'{result[2]:,}',
-            "unemployment_rate": round(result[3] * 100, 1),
-            "median_household_income": f'{round(result[4]):,}',
-            "healthcare_rate": round(result[5] * 100, 1),
-            "hs_graduation_rate": round(result[6] * 100, 1),
-            "assoc_degree_rate": round(result[7] * 100, 1),
-            "bachelor_degree_rate": round(result[8] * 100, 1),
-            "grad_degree_rate": round(result[9] * 100, 1),
-            })
+    result = db.session.execute(f'SELECT * FROM census_data WHERE zipcode_5 = "{search_term}"').first()
+    census_data = {
+        "id": result[0],
+        "zipcode": result[1],  
+        "pop_total": f'{result[2]:,}',
+        "unemployment_rate": round(result[3] * 100, 1),
+        "median_household_income": f'{round(result[4]):,}',
+        "healthcare_rate": round(result[5] * 100, 1),
+        "hs_graduation_rate": round(result[6] * 100, 1),
+        "assoc_degree_rate": round(result[7] * 100, 1),
+        "bachelor_degree_rate": round(result[8] * 100, 1),
+        "grad_degree_rate": round(result[9] * 100, 1)
+        }
     return census_data
+
+def quartile_request(search_term):
+    quartile_result = db.session.execute(f'SELECT * FROM zipcodes_quartiles WHERE zipcode_5 = "{search_term}"').first()
+    quartile_data = {
+        "actual_DEM_quartile": int(quartile_result[1]),
+        "actual_REP_quartile": int(quartile_result[2]),
+        "predicted_DEM_quartile": int(quartile_result[5]),
+        "predicted_REP_quartile": int(quartile_result[6])
+        }
+    return quartile_data
 
 @app.route("/api/census/<zipcode>")
 def census(zipcode):
-    return jsonify(census_request(zipcode))
+    result = census_request(zipcode)
+    result.update(quartile_request(zipcode))
+    print(result)
+    return jsonify([result])
 
 @app.route("/api/zipcodes/")
 def zipcode_list():
@@ -85,7 +99,7 @@ def zipcode_list():
 
 @app.route("/api/zipcode_geo/<zipcode>")
 def zipcode_geo(zipcode):
-    donation_results = db.session.execute(f'SELECT zd.zipcode_5, donations_sum, donations_median, donations_count, zipcode_geojson FROM zipcode_donations zd join zi_p5 on zi_p5.zipcode_5 = zd.zipcode_5 WHERE zd.zipcode_5="{zipcode}"')
+    donation_results = db.session.execute(f'SELECT zd.zipcode_5, donations_sum, donations_median, donations_count, zipcode_geojson FROM zipcode_donations zd join zi_p5 on zi_p5.zipcode_5 = zd.zipcode_5 WHERE zd.zipcode_5="{zipcode}" and CAND_PARTY="TOTAL"')
     features = []
     for result in donation_results:
         geometry = json.loads(result[4])
@@ -112,8 +126,9 @@ def parties():
 
 @app.route("/zipcode/<zipcode>")
 def zipcode_profile(zipcode):
-    data = census_request(zipcode)
-    return render_template("zip_code.html", data=data[0])
+    result = census_request(zipcode)
+    result.update(quartile_request(zipcode))
+    return render_template("zip_code.html", data=result)
     
 @app.route("/featured")
 def featured():

@@ -69,16 +69,6 @@
                                         </a>
                                     </li>
                                     
-                                    <!-- REPORT GENERATED FROM FLASK QUERY -->
-                                    <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="zip_code">Zip Code Query</a>
-                                    </li>
-
-                                     <!-- Featured Queries -- Back-up if live data processes to slowly for the demo -->
-                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="featured">Featured</a>
-                                    </li>
-
                                     <!-- TEMPLATES TAB // PRESENTATION -->
                                     <li class="nav-item text-right">
                                         <a class="nav-link text-muted" href="presentation">Presentation</a>
@@ -154,16 +144,15 @@
                             <form>
     <!-- .selectZipcode ||  Do we want this to be sticky to the bottom-->
 
-                                <div class="col-md-3">
-                                    <table>
+                                <div class="col-md-2">
+                                    <!-- <table>
                                        <td><h5>Zipcode:</h5></td> 
                                        <td style="padding-left:20px"><select id="selectZipcode" style="width:100px;" onchange="optionChanged(this.value)"></select></td> 
-                                    </table>
-                                    <!-- <input class="form-control" id="selectState" type="text" placeholder="State"> -->
+                                    </table> -->
                                 </div>
 
     <!-- .selectParty ||  Do we want this to be sticky to the bottom-->
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <table>
                                         <td><h5>Party:</h5></td> 
                                         <td style="padding-left:20px"><select id="selectParty" style="width:100px;" onchange="optionChanged(this.value)"></select></td> 
@@ -183,8 +172,9 @@
                         
                                             <!-- <input class="form-control" id="selectDistrict" type="text" placeholder="Election &/or District"> -->
                             </div>
-                                <div class="col-md-3">
-                                <button style="padding-top:10px" id="submit" type="submit" class="btn">Run Query</button>
+                            
+                            <div class="col-md-3">
+                                <!-- <button style="padding-top:10px" id="submit" type="submit" class="btn">Run Query</button> -->
                             </div>
 
     <!-- .selectCandidate ||  Do we want this to be sticky to the bottom-->

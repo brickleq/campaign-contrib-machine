@@ -65,23 +65,13 @@
 
                                     <!-- LANDING PAGE // INDEX.HOME -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="#">Home<span class="sr-only">(current)</span>
+                                        <a class="nav-link text-muted" href="/">Home<span class="sr-only">(current)</span>
                                         </a>
-                                    </li>
-                                    
-                                    <!-- REPORT GENERATED FROM FLASK QUERY -->
-                                    <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="zip_code">Zip Code Query</a>
-                                    </li>
-
-                                     <!-- Featured Queries -- Back-up if live data processes to slowly for the demo -->
-                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="featured">Featured</a>
                                     </li>
 
                                     <!-- TEMPLATES TAB // PRESENTATION -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="presentation">Presentation</a>
+                                        <a class="nav-link text-muted" href="/presentation">Presentation</a>
                                     </li>
                                     
                                     <!-- TEMPLATES DROPDOWN // STILL FIGURING OUT WHAT WE MIGHT NEED -->
@@ -101,7 +91,7 @@
 
                                     <!-- TEMPLATES TAB // ABOUT US -->
                                     <li class="nav-item text-right">
-                                        <a class="nav-link text-muted" href="about_us">About Us</a>
+                                        <a class="nav-link text-muted" href="/about_us">About Us</a>
                                     </li>
                                 </ul>       
                             </div>
@@ -151,22 +141,27 @@
                                     <tr style="padding:10px">
                                         <th style="padding:10px"><h5>Economic</h5></th>
                                         <th style="padding:10px"><h5>Education (Highest Degree Earned)</th>
+                                        <th style="padding:10px"><h5>Total Individual Donations Quartile</th>
                                     </tr>
                                     <tr style="padding:10px">
                                         <td style="padding:10px">Population: {{ data.pop_total }}</td>                                <!-- LANDING : Population --> 
-                                        <td style="padding:10px">High School: {{ data.hs_graduation_rate }}%</td>                      <!-- LANDING : hs_graduation_rate -->
+                                        <td style="padding:10px">High School: {{ data.hs_graduation_rate }}%</td>                      <!-- LANDING : hs_graduation_rate --> 
+                                        <td style="padding:10px">Predicted Quartile, Democratic: {{ data.predicted_DEM_quartile }}</td> 
                                     </tr>
                                     <tr style="padding:10px">
                                         <td style="padding:10px">Median Household Income: ${{ data.median_household_income }}</td>     <!-- LANDING : Median Household -->
                                         <td style="padding:10px">Associate's: {{ data.assoc_degree_rate }}%</td>                       <!-- LANDING : Associates -->
+                                        <td style="padding:10px">Actual Quartile, Democratic: {{ data.actual_DEM_quartile }}</td>     
                                     </tr>
                                     <tr style="padding:10px">
                                         <td style="padding:10px">Unemployment Rate: {{ data.unemployment_rate }}%</td>                 <!-- LANDING : Unemployment --> 
                                         <td style="padding:10px">Bachelor's: {{ data.bachelor_degree_rate }}%</td>                     <!-- LANDING : Bachelors --> 
+                                        <td style="padding:10px">Predicted Quartile, Republican: {{ data.predicted_REP_quartile }}</td>
                                     </tr>
                                     <tr style="padding:10px">
                                         <td style="padding:10px">Has Health Insurace: {{ data.healthcare_rate }}%</td>                  <!-- LANDING : Healthcare --> 
                                         <td style="padding:10px">Graduate: {{ data.grad_degree_rate }}%</td>                           <!-- LANDING : Graduate Degree --> 
+                                        <td style="padding:10px">Actual Quartile, Republican: {{ data.actual_REP_quartile }}</td>     
                                     </tr>
                                 </table>
                             </div>
