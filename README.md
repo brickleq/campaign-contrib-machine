@@ -38,4 +38,4 @@ It is also possible to filter donations to candidates associated with a specific
 
 ## Acknowledgments
 
-* Thank you to Chris Gombas, Daisy Li, and Kerry Kurcz for their help during this project
+* Thank you to Chris Gombas, Daisy Lu, and Kerry Kurcz for their help during this project
